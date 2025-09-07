@@ -33,10 +33,19 @@ docker exec -it trampala_laravel bash
 php artisan migrate:fresh --seed
 ```
 
-4. **Generate API token for testing**
+4. **Generate API tokens for testing**
 ```bash
-docker exec -it trampala_laravel php artisan api:token admin@trampala.com --name=api-testing
+# For admin user
+docker exec -it trampala_laravel php artisan api:token admin@test.com --name=api-testing
+
+# For regular user  
+docker exec -it trampala_laravel php artisan api:token user@test.com --name=api-testing
 ```
+
+### Default Test Users
+After seeding, the following users are available:
+- **Admin**: `admin@test.com` / Password: `admin123`
+- **User**: `user@test.com` / Password: `user123`
 
 ## 🏗️ Architecture
 

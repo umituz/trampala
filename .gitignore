@@ -1,0 +1,195 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.tmp
+*.temp
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+.buildpath
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Laravel specific
+/laravel/vendor/
+/laravel/node_modules/
+/laravel/public/hot
+/laravel/public/storage
+/laravel/storage/*.key
+/laravel/storage/app/*
+!/laravel/storage/app/seeders/
+/laravel/storage/framework/cache/
+/laravel/storage/framework/sessions/
+/laravel/storage/framework/testing/
+/laravel/storage/framework/views/
+/laravel/storage/logs/
+/laravel/bootstrap/cache/*.php
+/laravel/.env
+/laravel/.env.backup
+/laravel/.phpunit.result.cache
+/laravel/Homestead.json
+/laravel/Homestead.yaml
+/laravel/auth.json
+/laravel/npm-debug.log
+/laravel/yarn-error.log
+/laravel/.phpstorm.meta.php
+/laravel/_ide_helper.php
+/laravel/_ide_helper_models.php
+
+# Laravel Mix
+/laravel/public/js/
+/laravel/public/css/
+/laravel/public/mix-manifest.json
+
+# PHPUnit
+/laravel/phpunit.xml
+
+# Nuxt.js specific
+/nuxt/.nuxt/
+/nuxt/.output/
+/nuxt/dist/
+/nuxt/node_modules/
+/nuxt/.env
+/nuxt/.env.local
+/nuxt/.env.development.local
+/nuxt/.env.test.local
+/nuxt/.env.production.local
+/nuxt/coverage/
+/nuxt/.nyc_output
+/nuxt/.cache/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+jspm_packages/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# parcel-bundler cache (https://parceljs.org/)
+.parcel-cache
+
+# Next.js build output
+.next
+
+# Nuxt.js build / generate output
+*.nuxt
+.output
+
+# Gatsby files
+.cache/
+public
+
+# Storybook build outputs
+.out
+.storybook-out
+
+# Temporary folders
+tmp/
+temp/
+
+# Logs
+logs
+*.log
+
+# Docker
+.dockerignore
+
+# Database
+*.sqlite
+*.sqlite3
+*.db
+
+# Backup files
+*.backup
+*.bak
+*.old
+
+# Archive files
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+
+# Local configuration files
+local.json
+config.local.json
+
+# Test files
+/tests/coverage/
+
+# Composer
+composer.phar
+/vendor/
+
+# Package files
+*.dmg
+*.iso
+
+# Compiled files
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Documentation
+/docs/build/

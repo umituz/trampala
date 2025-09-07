@@ -1,0 +1,184 @@
+{
+  "info": {
+    "_postman_id": "trampala-api-collection",
+    "name": "Trampala API Collection",
+    "description": "Collection for Trampala Platform API endpoints including user management, categories, listings, and location services",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "description": "Authentication endpoints for login and registration",
+      "item": [
+        { "$ref": "collections/authentication/authentication.json#/item/0" },
+        { "$ref": "collections/authentication/authentication.json#/item/1" },
+        { "$ref": "collections/authentication/authentication.json#/item/2" }
+      ]
+    },
+    {
+      "name": "Listings",
+      "description": "Classified ads management with approval workflow, full CRUD operations, and soft deletes",
+      "item": [
+        { "$ref": "collections/listings/listings.json#/item/0" },
+        { "$ref": "collections/listings/listings.json#/item/1" },
+        { "$ref": "collections/listings/listings.json#/item/2" },
+        { "$ref": "collections/listings/listings.json#/item/3" },
+        { "$ref": "collections/listings/listings.json#/item/4" },
+        { "$ref": "collections/listings/listings.json#/item/5" },
+        { "$ref": "collections/listings/listings.json#/item/6" },
+        { "$ref": "collections/listings/listings.json#/item/7" },
+        { "$ref": "collections/listings/listings.json#/item/8" },
+        { "$ref": "collections/listings/listings.json#/item/9" },
+        { "$ref": "collections/listings/listings.json#/item/10" }
+      ]
+    },
+    {
+      "name": "Health Check",
+      "description": "Health check and system status endpoints",
+      "item": [
+        { "$ref": "collections/health/health.json#/item/0" }
+      ]
+    },
+    {
+      "name": "Admin Management",
+      "description": "Administrative endpoints for dashboard analytics and system management",
+      "item": [
+        {
+          "name": "Admin Dashboard",
+          "description": "Admin dashboard overview and analytics",
+          "item": [
+            { "$ref": "collections/admin/dashboard/admin-dashboard.json#/item/0" }
+          ]
+        },
+        {
+          "name": "Categories",
+          "description": "Category management with hierarchy support and full CRUD operations",
+          "item": [
+            { "$ref": "collections/admin/categories/categories.json#/item/0" },
+            { "$ref": "collections/admin/categories/categories.json#/item/1" },
+            { "$ref": "collections/admin/categories/categories.json#/item/2" },
+            { "$ref": "collections/admin/categories/categories.json#/item/3" },
+            { "$ref": "collections/admin/categories/categories.json#/item/4" },
+            { "$ref": "collections/admin/categories/categories.json#/item/5" },
+            { "$ref": "collections/admin/categories/categories.json#/item/6" },
+            { "$ref": "collections/admin/categories/categories.json#/item/7" },
+            { "$ref": "collections/admin/categories/categories.json#/item/8" },
+            { "$ref": "collections/admin/categories/categories.json#/item/9" }
+          ]
+        },
+        {
+          "name": "Cities",
+          "description": "City and district management for location services",
+          "item": [
+            { "$ref": "collections/admin/cities/cities.json#/item/0" },
+            { "$ref": "collections/admin/cities/cities.json#/item/1" }
+          ]
+        },
+        {
+          "name": "Countries",
+          "description": "Country management with full CRUD operations",
+          "item": [
+            { "$ref": "collections/admin/countries/countries.json#/item/0" },
+            { "$ref": "collections/admin/countries/countries.json#/item/1" },
+            { "$ref": "collections/admin/countries/countries.json#/item/2" },
+            { "$ref": "collections/admin/countries/countries.json#/item/3" },
+            { "$ref": "collections/admin/countries/countries.json#/item/4" },
+            { "$ref": "collections/admin/countries/countries.json#/item/5" },
+            { "$ref": "collections/admin/countries/countries.json#/item/6" }
+          ]
+        },
+        {
+          "name": "Currencies",
+          "description": "Currency management with full CRUD operations",
+          "item": [
+            { "$ref": "collections/admin/currencies/currencies.json#/item/0" },
+            { "$ref": "collections/admin/currencies/currencies.json#/item/1" },
+            { "$ref": "collections/admin/currencies/currencies.json#/item/2" },
+            { "$ref": "collections/admin/currencies/currencies.json#/item/3" },
+            { "$ref": "collections/admin/currencies/currencies.json#/item/4" },
+            { "$ref": "collections/admin/currencies/currencies.json#/item/5" },
+            { "$ref": "collections/admin/currencies/currencies.json#/item/6" }
+          ]
+        },
+        {
+          "name": "Languages",
+          "description": "Language management with full CRUD operations",
+          "item": [
+            { "$ref": "collections/admin/languages/languages.json#/item/0" },
+            { "$ref": "collections/admin/languages/languages.json#/item/1" },
+            { "$ref": "collections/admin/languages/languages.json#/item/2" },
+            { "$ref": "collections/admin/languages/languages.json#/item/3" },
+            { "$ref": "collections/admin/languages/languages.json#/item/4" },
+            { "$ref": "collections/admin/languages/languages.json#/item/5" },
+            { "$ref": "collections/admin/languages/languages.json#/item/6" }
+          ]
+        },
+        {
+          "name": "Districts",
+          "description": "District read-only endpoints for location services",
+          "item": [
+            { "$ref": "collections/admin/districts/districts.json#/item/0" },
+            { "$ref": "collections/admin/districts/districts.json#/item/1" }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "category_uuid",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "per_page",
+      "value": "25",
+      "type": "string"
+    },
+    {
+      "key": "page",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "search",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "country_uuid",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "currency_uuid",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "language_uuid",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "city_uuid",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "district_uuid",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

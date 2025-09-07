@@ -1,0 +1,9 @@
+{
+  "name": "Trampala API Collection",
+  "output_file": "Trampala API.postman_collection.json",
+  "description": "Trampala Language Learning Platform API Collection with classified listings management",
+  "base_url": "http://localhost:8080/api",
+  "token_var": "token",
+  "collections_dir": "collections",
+  "ignore_validation": false
+}

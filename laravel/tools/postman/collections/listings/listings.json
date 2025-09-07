@@ -1,0 +1,421 @@
+{
+  "info": {
+    "name": "Listings",
+    "description": "Listing management with CRUD operations, multiple image support via Spatie Media Library, admin approval workflow, and soft deletes. Supports up to 5 images per listing with automatic thumbnail generation.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "List Approved Listings (Public)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/listings?per_page={{per_page}}&page={{page}}&category_uuid={{category_uuid}}&city_uuid={{city_uuid}}",
+          "host": ["{{base_url}}"],
+          "path": ["listings"],
+          "query": [
+            {"key": "per_page", "value": "{{per_page}}", "description": "Number of items per page"},
+            {"key": "page", "value": "{{page}}", "description": "Page number"},
+            {"key": "category_uuid", "value": "{{category_uuid}}", "description": "Filter by category UUID", "disabled": true},
+            {"key": "city_uuid", "value": "{{city_uuid}}", "description": "Filter by city UUID", "disabled": true},
+            {"key": "district_uuid", "value": "{{district_uuid}}", "description": "Filter by district UUID", "disabled": true},
+            {"key": "search", "value": "{{search}}", "description": "Search in name and description", "disabled": true},
+            {"key": "status", "value": "approved", "description": "Filter by status", "disabled": true}
+          ]
+        },
+        "description": "Get paginated list of approved listings (public access)"
+      },
+      "response": [
+        {
+          "name": "Success Response - Approved Listings",
+          "originalRequest": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/listings?per_page={{per_page}}&page={{page}}",
+              "query": [
+                {"key": "per_page", "value": "20"},
+                {"key": "page", "value": "1"}
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "body": "{\n    \"success\": true,\n    \"message\": \"Listings retrieved successfully\",\n    \"data\": {\n        \"data\": [\n            {\n                \"uuid\": \"0198d5bf-c001-72d1-8c56-b4824c7f7650\",\n                \"unique_number\": \"LST-2025-000001\",\n                \"name\": \"iPhone 15 Pro Max\",\n                \"description\": \"Brand new iPhone 15 Pro Max 256GB Space Black\",\n                \"image_path\": \"listings/iphone-15-pro.jpg\",\n                \"image_url\": \"http://localhost:8080/storage/listings/iphone-15-pro.jpg\",\n                \"status\": \"approved\",\n                \"status_description\": \"Approved\",\n                \"is_approved\": true,\n                \"is_pending\": false,\n                \"is_rejected\": false,\n                \"category\": {\n                    \"uuid\": \"0198d5bf-c002-72d1-8c56-b4824c7f7651\",\n                    \"name\": \"Smartphones\",\n                    \"slug\": \"smartphones\"\n                },\n                \"city\": {\n                    \"uuid\": \"0198d5bf-c003-72d1-8c56-b4824c7f7652\",\n                    \"name\": \"Istanbul\",\n                    \"plate_code\": \"34\"\n                },\n                \"district\": {\n                    \"uuid\": \"0198d5bf-c004-72d1-8c56-b4824c7f7653\",\n                    \"name\": \"Kadikoy\"\n                },\n                \"user\": {\n                    \"uuid\": \"0198d5bf-c005-72d1-8c56-b4824c7f7654\",\n                    \"name\": \"John Doe\"\n                },\n                \"created_at\": \"2025-09-05T15:30:00+00:00\",\n                \"updated_at\": \"2025-09-05T16:45:00+00:00\"\n            }\n        ],\n        \"links\": {\n            \"first\": \"http://localhost:8080/listings?page=1\",\n            \"last\": \"http://localhost:8080/listings?page=3\",\n            \"prev\": null,\n            \"next\": \"http://localhost:8080/listings?page=2\"\n        },\n        \"meta\": {\n            \"current_page\": 1,\n            \"from\": 1,\n            \"last_page\": 3,\n            \"per_page\": 20,\n            \"to\": 20,\n            \"total\": 57,\n            \"count\": 20\n        }\n    },\n    \"errors\": []\n}"
+        }
+      ]
+    },
+    {
+      "name": "Get Listing Details (Public)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/listings/{{listing_uuid}}",
+          "host": ["{{base_url}}"],
+          "path": ["listings", "{{listing_uuid}}"]
+        },
+        "description": "Get detailed information about a specific listing"
+      },
+      "response": [
+        {
+          "name": "Success Response - Listing Details",
+          "originalRequest": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/listings/{{listing_uuid}}",
+              "host": ["{{base_url}}"],
+              "path": ["listings", "{{listing_uuid}}"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "body": "{\n    \"success\": true,\n    \"message\": \"Listing retrieved successfully\",\n    \"data\": {\n        \"uuid\": \"0198d5bf-c001-72d1-8c56-b4824c7f7650\",\n        \"unique_number\": \"LST-2025-000001\",\n        \"name\": \"iPhone 15 Pro Max\",\n        \"description\": \"Brand new iPhone 15 Pro Max 256GB Space Black. Comes with original box and all accessories. Never used, still sealed.\",\n        \"image_path\": \"listings/iphone-15-pro.jpg\",\n        \"image_url\": \"http://localhost:8080/storage/listings/iphone-15-pro.jpg\",\n        \"status\": \"approved\",\n        \"status_description\": \"Approved\",\n        \"is_approved\": true,\n        \"is_pending\": false,\n        \"is_rejected\": false,\n        \"category\": {\n            \"uuid\": \"0198d5bf-c002-72d1-8c56-b4824c7f7651\",\n            \"name\": \"Smartphones\",\n            \"slug\": \"smartphones\",\n            \"description\": \"Mobile phones and accessories\"\n        },\n        \"city\": {\n            \"uuid\": \"0198d5bf-c003-72d1-8c56-b4824c7f7652\",\n            \"name\": \"Istanbul\",\n            \"plate_code\": \"34\"\n        },\n        \"district\": {\n            \"uuid\": \"0198d5bf-c004-72d1-8c56-b4824c7f7653\",\n            \"name\": \"Kadikoy\"\n        },\n        \"user\": {\n            \"uuid\": \"0198d5bf-c005-72d1-8c56-b4824c7f7654\",\n            \"name\": \"John Doe\"\n        },\n        \"created_at\": \"2025-09-05T15:30:00+00:00\",\n        \"updated_at\": \"2025-09-05T16:45:00+00:00\"\n    },\n    \"errors\": []\n}"
+        }
+      ]
+    },
+    {
+      "name": "Create Listing (Auth Required)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "multipart/form-data",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {"key": "name", "value": "iPhone 15 Pro Max", "type": "text", "description": "Listing title"},
+            {"key": "description", "value": "Brand new iPhone 15 Pro Max 256GB Space Black", "type": "text", "description": "Detailed description"},
+            {"key": "category_uuid", "value": "{{category_uuid}}", "type": "text", "description": "Category UUID"},
+            {"key": "city_uuid", "value": "{{city_uuid}}", "type": "text", "description": "City UUID"},
+            {"key": "district_uuid", "value": "{{district_uuid}}", "type": "text", "description": "District UUID"},
+            {"key": "images[]", "type": "file", "src": [], "description": "Multiple listing image files (max 5)"},
+            {"key": "images[]", "type": "file", "src": [], "description": "Additional image file (optional)", "disabled": true},
+            {"key": "images[]", "type": "file", "src": [], "description": "Additional image file (optional)", "disabled": true}
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/listings",
+          "host": ["{{base_url}}"],
+          "path": ["listings"]
+        },
+        "description": "Create a new listing (requires authentication)"
+      },
+      "response": [
+        {
+          "name": "Success Response - Listing Created",
+          "originalRequest": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {"key": "name", "value": "iPhone 15 Pro Max", "type": "text"},
+                {"key": "description", "value": "Brand new iPhone 15 Pro Max 256GB Space Black", "type": "text"},
+                {"key": "category_uuid", "value": "{{category_uuid}}", "type": "text"},
+                {"key": "city_uuid", "value": "{{city_uuid}}", "type": "text"},
+                {"key": "district_uuid", "value": "{{district_uuid}}", "type": "text"}
+              ]
+            },
+            "url": "{{base_url}}/listings"
+          },
+          "status": "Created",
+          "code": 201,
+          "body": "{\n    \"success\": true,\n    \"message\": \"Listing created successfully\",\n    \"data\": {\n        \"uuid\": \"0198d5bf-c001-72d1-8c56-b4824c7f7650\",\n        \"unique_number\": \"LST-2025-000001\",\n        \"name\": \"iPhone 15 Pro Max\",\n        \"description\": \"Brand new iPhone 15 Pro Max 256GB Space Black\",\n        \"image_path\": null,\n        \"image_url\": null,\n        \"status\": \"pending\",\n        \"status_description\": \"Pending Approval\",\n        \"is_approved\": false,\n        \"is_pending\": true,\n        \"is_rejected\": false,\n        \"category\": {\n            \"uuid\": \"0198d5bf-c002-72d1-8c56-b4824c7f7651\",\n            \"name\": \"Smartphones\",\n            \"slug\": \"smartphones\"\n        },\n        \"city\": {\n            \"uuid\": \"0198d5bf-c003-72d1-8c56-b4824c7f7652\",\n            \"name\": \"Istanbul\",\n            \"plate_code\": \"34\"\n        },\n        \"district\": {\n            \"uuid\": \"0198d5bf-c004-72d1-8c56-b4824c7f7653\",\n            \"name\": \"Kadikoy\"\n        },\n        \"user\": {\n            \"uuid\": \"0198d5bf-c005-72d1-8c56-b4824c7f7654\",\n            \"name\": \"John Doe\"\n        },\n        \"created_at\": \"2025-09-05T15:30:00+00:00\",\n        \"updated_at\": \"2025-09-05T15:30:00+00:00\"\n    },\n    \"errors\": []\n}"
+        },
+        {
+          "name": "Validation Error",
+          "originalRequest": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {"key": "name", "value": "", "type": "text"},
+                {"key": "description", "value": "", "type": "text"}
+              ]
+            },
+            "url": "{{base_url}}/listings"
+          },
+          "status": "Unprocessable Entity",
+          "code": 422,
+          "body": "{\n    \"success\": false,\n    \"message\": \"Validation failed\",\n    \"data\": null,\n    \"errors\": [\n        \"The name field is required\",\n        \"The description field is required\",\n        \"The category uuid field is required\",\n        \"The city uuid field is required\",\n        \"The district uuid field is required\",\n        \"At least one image is required\",\n        \"Maximum 5 images are allowed\",\n        \"Each image must be jpeg, png, jpg, or webp format\",\n        \"Each image size cannot exceed 2MB\"\n    ]\n}"
+        }
+      ]
+    },
+    {
+      "name": "Update Listing (Owner/Admin)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "multipart/form-data",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {"key": "name", "value": "Updated iPhone 15 Pro Max", "type": "text", "description": "Updated listing title"},
+            {"key": "description", "value": "Updated description for iPhone 15 Pro Max", "type": "text", "description": "Updated detailed description"},
+            {"key": "category_uuid", "value": "{{category_uuid}}", "type": "text", "description": "Category UUID"},
+            {"key": "city_uuid", "value": "{{city_uuid}}", "type": "text", "description": "City UUID"},
+            {"key": "district_uuid", "value": "{{district_uuid}}", "type": "text", "description": "District UUID"},
+            {"key": "images[]", "type": "file", "src": [], "description": "New listing image files (max 5)", "disabled": true},
+            {"key": "images[]", "type": "file", "src": [], "description": "Additional image file (optional)", "disabled": true}
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/listings/{{listing_uuid}}",
+          "host": ["{{base_url}}"],
+          "path": ["listings", "{{listing_uuid}}"]
+        },
+        "description": "Update listing (owner or admin only)"
+      },
+      "response": [
+        {
+          "name": "Success Response - Listing Updated",
+          "originalRequest": {
+            "method": "PUT",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {"key": "name", "value": "Updated iPhone 15 Pro Max", "type": "text"},
+                {"key": "description", "value": "Updated description", "type": "text"}
+              ]
+            },
+            "url": "{{base_url}}/listings/{{listing_uuid}}"
+          },
+          "status": "OK",
+          "code": 200,
+          "body": "{\n    \"success\": true,\n    \"message\": \"Listing updated successfully\",\n    \"data\": {\n        \"uuid\": \"0198d5bf-c001-72d1-8c56-b4824c7f7650\",\n        \"unique_number\": \"LST-2025-000001\",\n        \"name\": \"Updated iPhone 15 Pro Max\",\n        \"description\": \"Updated description for iPhone 15 Pro Max\",\n        \"image_path\": \"listings/iphone-15-pro.jpg\",\n        \"image_url\": \"http://localhost:8080/storage/listings/iphone-15-pro.jpg\",\n        \"status\": \"pending\",\n        \"status_description\": \"Pending Approval\",\n        \"is_approved\": false,\n        \"is_pending\": true,\n        \"is_rejected\": false,\n        \"created_at\": \"2025-09-05T15:30:00+00:00\",\n        \"updated_at\": \"2025-09-05T17:15:00+00:00\"\n    },\n    \"errors\": []\n}"
+        }
+      ]
+    },
+    {
+      "name": "Delete Listing (Soft Delete)",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "{{base_url}}/listings/{{listing_uuid}}",
+          "host": ["{{base_url}}"],
+          "path": ["listings", "{{listing_uuid}}"]
+        },
+        "description": "Soft delete a listing (owner or admin only)"
+      },
+      "response": [
+        {
+          "name": "Success Response - Listing Deleted",
+          "originalRequest": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/listings/{{listing_uuid}}",
+              "host": ["{{base_url}}"],
+              "path": ["listings", "{{listing_uuid}}"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "body": "{\n    \"success\": true,\n    \"message\": \"Listing deleted successfully\",\n    \"data\": null,\n    \"errors\": []\n}"
+        }
+      ]
+    },
+    {
+      "name": "Get My Listings (Auth Required)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/listings/my?per_page={{per_page}}&page={{page}}",
+          "host": ["{{base_url}}"],
+          "path": ["listings", "my"],
+          "query": [
+            {"key": "per_page", "value": "{{per_page}}", "description": "Number of items per page"},
+            {"key": "page", "value": "{{page}}", "description": "Page number"},
+            {"key": "status", "value": "pending", "description": "Filter by status", "disabled": true}
+          ]
+        },
+        "description": "Get current user's listings with all statuses"
+      },
+      "response": [
+        {
+          "name": "Success Response - My Listings",
+          "originalRequest": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/listings/my?per_page={{per_page}}&page={{page}}",
+              "query": [
+                {"key": "per_page", "value": "20"},
+                {"key": "page", "value": "1"}
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "body": "{\n    \"success\": true,\n    \"message\": \"User listings retrieved successfully\",\n    \"data\": {\n        \"data\": [\n            {\n                \"uuid\": \"0198d5bf-c001-72d1-8c56-b4824c7f7650\",\n                \"unique_number\": \"LST-2025-000001\",\n                \"name\": \"iPhone 15 Pro Max\",\n                \"description\": \"Brand new iPhone 15 Pro Max 256GB Space Black\",\n                \"image_url\": \"http://localhost:8080/storage/listings/iphone-15-pro.jpg\",\n                \"status\": \"pending\",\n                \"status_description\": \"Pending Approval\",\n                \"is_approved\": false,\n                \"is_pending\": true,\n                \"is_rejected\": false,\n                \"approved_by\": null,\n                \"approved_at\": null,\n                \"rejection_reason\": null,\n                \"created_at\": \"2025-09-05T15:30:00+00:00\",\n                \"updated_at\": \"2025-09-05T15:30:00+00:00\"\n            }\n        ],\n        \"meta\": {\n            \"total\": 5,\n            \"count\": 5\n        }\n    },\n    \"errors\": []\n}"
+        }
+      ]
+    },
+    {
+      "name": "Get Pending Listings (Admin Only)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/listings/pending?per_page={{per_page}}&page={{page}}",
+          "host": ["{{base_url}}"],
+          "path": ["listings", "pending"],
+          "query": [
+            {"key": "per_page", "value": "{{per_page}}", "description": "Number of items per page"},
+            {"key": "page", "value": "{{page}}", "description": "Page number"}
+          ]
+        },
+        "description": "Get all pending listings for admin approval"
+      },
+      "response": [
+        {
+          "name": "Success Response - Pending Listings",
+          "originalRequest": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/listings/pending?per_page={{per_page}}&page={{page}}",
+              "query": [
+                {"key": "per_page", "value": "20"},
+                {"key": "page", "value": "1"}
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "body": "{\n    \"success\": true,\n    \"message\": \"Pending listings retrieved successfully\",\n    \"data\": {\n        \"data\": [\n            {\n                \"uuid\": \"0198d5bf-c001-72d1-8c56-b4824c7f7650\",\n                \"unique_number\": \"LST-2025-000001\",\n                \"name\": \"iPhone 15 Pro Max\",\n                \"description\": \"Brand new iPhone 15 Pro Max 256GB Space Black\",\n                \"image_url\": \"http://localhost:8080/storage/listings/iphone-15-pro.jpg\",\n                \"status\": \"pending\",\n                \"status_description\": \"Pending Approval\",\n                \"user\": {\n                    \"uuid\": \"0198d5bf-c005-72d1-8c56-b4824c7f7654\",\n                    \"name\": \"John Doe\",\n                    \"email\": \"john@example.com\"\n                },\n                \"created_at\": \"2025-09-05T15:30:00+00:00\",\n                \"updated_at\": \"2025-09-05T15:30:00+00:00\"\n            }\n        ],\n        \"meta\": {\n            \"total\": 12,\n            \"count\": 12\n        }\n    },\n    \"errors\": []\n}"
+        }
+      ]
+    },
+    {
+      "name": "Approve Listing (Admin Only)",
+      "request": {
+        "method": "POST",
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {"raw": {"language": "json"}}
+        },
+        "url": {
+          "raw": "{{base_url}}/listings/{{listing_uuid}}/approve",
+          "host": ["{{base_url}}"],
+          "path": ["listings", "{{listing_uuid}}", "approve"]
+        },
+        "description": "Approve a pending listing (admin only)"
+      },
+      "response": [
+        {
+          "name": "Success Response - Listing Approved",
+          "originalRequest": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": "{{base_url}}/listings/{{listing_uuid}}/approve"
+          },
+          "status": "OK",
+          "code": 200,
+          "body": "{\n    \"success\": true,\n    \"message\": \"Listing approved successfully\",\n    \"data\": {\n        \"uuid\": \"0198d5bf-c001-72d1-8c56-b4824c7f7650\",\n        \"unique_number\": \"LST-2025-000001\",\n        \"name\": \"iPhone 15 Pro Max\",\n        \"status\": \"approved\",\n        \"status_description\": \"Approved\",\n        \"is_approved\": true,\n        \"is_pending\": false,\n        \"is_rejected\": false,\n        \"approved_by\": {\n            \"uuid\": \"0198d5bf-c008-72d1-8c56-b4824c7f7658\",\n            \"name\": \"Admin User\"\n        },\n        \"approved_at\": \"2025-09-05T18:00:00+00:00\",\n        \"created_at\": \"2025-09-05T15:30:00+00:00\",\n        \"updated_at\": \"2025-09-05T18:00:00+00:00\"\n    },\n    \"errors\": []\n}"
+        }
+      ]
+    },
+    {
+      "name": "Reject Listing (Admin Only)",
+      "request": {
+        "method": "POST",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"reason\": \"Inappropriate content or misleading information\"\n}",
+          "options": {"raw": {"language": "json"}}
+        },
+        "url": {
+          "raw": "{{base_url}}/listings/{{listing_uuid}}/reject",
+          "host": ["{{base_url}}"],
+          "path": ["listings", "{{listing_uuid}}", "reject"]
+        },
+        "description": "Reject a pending listing with reason (admin only)"
+      },
+      "response": [
+        {
+          "name": "Success Response - Listing Rejected",
+          "originalRequest": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Inappropriate content or misleading information\"\n}"
+            },
+            "url": "{{base_url}}/listings/{{listing_uuid}}/reject"
+          },
+          "status": "OK",
+          "code": 200,
+          "body": "{\n    \"success\": true,\n    \"message\": \"Listing rejected successfully\",\n    \"data\": {\n        \"uuid\": \"0198d5bf-c001-72d1-8c56-b4824c7f7650\",\n        \"unique_number\": \"LST-2025-000001\",\n        \"name\": \"iPhone 15 Pro Max\",\n        \"status\": \"rejected\",\n        \"status_description\": \"Rejected\",\n        \"is_approved\": false,\n        \"is_pending\": false,\n        \"is_rejected\": true,\n        \"rejection_reason\": \"Inappropriate content or misleading information\",\n        \"created_at\": \"2025-09-05T15:30:00+00:00\",\n        \"updated_at\": \"2025-09-05T18:05:00+00:00\"\n    },\n    \"errors\": []\n}"
+        }
+      ]
+    },
+    {
+      "name": "Restore Listing (Admin Only)",
+      "request": {
+        "method": "POST",
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {"raw": {"language": "json"}}
+        },
+        "url": {
+          "raw": "{{base_url}}/listings/{{listing_uuid}}/restore",
+          "host": ["{{base_url}}"],
+          "path": ["listings", "{{listing_uuid}}", "restore"]
+        },
+        "description": "Restore a soft deleted listing (admin only)"
+      },
+      "response": [
+        {
+          "name": "Success Response - Listing Restored",
+          "originalRequest": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": "{{base_url}}/listings/{{listing_uuid}}/restore"
+          },
+          "status": "OK",
+          "code": 200,
+          "body": "{\n    \"success\": true,\n    \"message\": \"Listing restored successfully\",\n    \"data\": null,\n    \"errors\": []\n}"
+        }
+      ]
+    },
+    {
+      "name": "Force Delete Listing (Admin Only)",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "{{base_url}}/listings/{{listing_uuid}}/force-delete",
+          "host": ["{{base_url}}"],
+          "path": ["listings", "{{listing_uuid}}", "force-delete"]
+        },
+        "description": "Permanently delete a listing (admin only)"
+      },
+      "response": [
+        {
+          "name": "Success Response - Listing Force Deleted",
+          "originalRequest": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/listings/{{listing_uuid}}/force-delete",
+              "host": ["{{base_url}}"],
+              "path": ["listings", "{{listing_uuid}}", "force-delete"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "body": "{\n    \"success\": true,\n    \"message\": \"Listing permanently deleted successfully\",\n    \"data\": null,\n    \"errors\": []\n}"
+        }
+      ]
+    }
+  ]
+}

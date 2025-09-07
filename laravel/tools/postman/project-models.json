@@ -1,0 +1,70 @@
+{
+  "variables": [
+    {
+      "key": "user_uuid",
+      "value": "00000000-0000-0000-0000-000000000001",
+      "type": "string",
+      "description": "UUID of a user for testing"
+    },
+    {
+      "key": "category_uuid",
+      "value": "00000000-0000-0000-0000-000000000004",
+      "type": "string",
+      "description": "UUID of a category for testing"
+    },
+    {
+      "key": "listing_uuid",
+      "value": "00000000-0000-0000-0000-000000000005",
+      "type": "string",
+      "description": "UUID of a listing for testing"
+    },
+    {
+      "key": "city_uuid",
+      "value": "00000000-0000-0000-0000-000000000006",
+      "type": "string",
+      "description": "UUID of a city for testing (Istanbul)"
+    },
+    {
+      "key": "district_uuid",
+      "value": "00000000-0000-0000-0000-000000000007",
+      "type": "string",
+      "description": "UUID of a district for testing (Kadikoy)"
+    },
+    {
+      "key": "per_page",
+      "value": "20",
+      "type": "string",
+      "description": "Number of items per page for pagination (ApiEnums::DEFAULT_PAGINATION)"
+    },
+    {
+      "key": "page",
+      "value": "1",
+      "type": "string",
+      "description": "Page number for pagination"
+    },
+    {
+      "key": "search",
+      "value": "test",
+      "type": "string",
+      "description": "Search term for filtering"
+    },
+    {
+      "key": "address_uuid",
+      "value": "00000000-0000-0000-0000-000000000002",
+      "type": "string",
+      "description": "UUID of a user address for testing"
+    },
+    {
+      "key": "country_uuid",
+      "value": "00000000-0000-0000-0000-000000000003",
+      "type": "string",
+      "description": "UUID of a country for address testing (Turkey)"
+    },
+    {
+      "key": "admin_uuid",
+      "value": "00000000-0000-0000-0000-000000000008",
+      "type": "string",
+      "description": "UUID of an admin user for testing approval workflows"
+    }
+  ]
+}

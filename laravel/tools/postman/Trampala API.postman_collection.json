@@ -1,0 +1,3415 @@
+{
+  "info": {
+    "_postman_id": "trampala-api-collection",
+    "name": "Trampala API Collection",
+    "description": "Trampala Language Learning Platform API Collection with classified listings management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "description": "Authentication endpoints for login and registration",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"newuser@test.com\",\n  \"password\": \"password123\",\n  \"password_confirmation\": \"password123\",\n  \"country_code\": \"TR\",\n  \"terms_accepted\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "register"
+              ]
+            },
+            "description": "Register a new user account",
+            "name": "Register",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@test.com\",\n  \"password\": \"admin123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "login"
+              ]
+            },
+            "description": "Login with email and password to get authentication token",
+            "name": "Login",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "console.log('Login test script started');",
+                  "console.log('Response code:', pm.response.code);",
+                  "",
+                  "if (pm.response.code === 200) {",
+                  "    try {",
+                  "        const responseJson = pm.response.json();",
+                  "        console.log('Response JSON:', responseJson);",
+                  "        ",
+                  "        if (responseJson.success && responseJson.data && responseJson.data.token) {",
+                  "            console.log('Setting token:', responseJson.data.token);",
+                  "            pm.collectionVariables.set('token', responseJson.data.token);",
+                  "            pm.environment.set('token', responseJson.data.token);",
+                  "            console.log('Token set successfully');",
+                  "        } else {",
+                  "            console.log('Token not found in response');",
+                  "        }",
+                  "    } catch (error) {",
+                  "        console.log('Error parsing response:', error);",
+                  "    }",
+                  "} else {",
+                  "    console.log('Login failed with code:', pm.response.code);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/logout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "logout"
+              ]
+            },
+            "description": "Logout user and revoke authentication token",
+            "name": "Logout",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "console.log('Logout test script started');",
+                  "console.log('Response code:', pm.response.code);",
+                  "",
+                  "if (pm.response.code === 200) {",
+                  "    try {",
+                  "        const responseJson = pm.response.json();",
+                  "        console.log('Logout response:', responseJson);",
+                  "        ",
+                  "        if (responseJson.success) {",
+                  "            console.log('Clearing token...');",
+                  "            pm.collectionVariables.set('token', '');",
+                  "            pm.environment.set('token', '');",
+                  "            console.log('Token cleared successfully');",
+                  "        } else {",
+                  "            console.log('Logout not successful');",
+                  "        }",
+                  "    } catch (error) {",
+                  "        console.log('Error parsing response:', error);",
+                  "    }",
+                  "} else {",
+                  "    console.log('Logout failed with code:', pm.response.code);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Listings",
+      "description": "Classified ads management with approval workflow, full CRUD operations, and soft deletes",
+      "item": [
+        {
+          "name": "List Approved Listings (Public)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/listings?per_page={{per_page}}&page={{page}}&category_uuid={{category_uuid}}&city_uuid={{city_uuid}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "listings"
+              ],
+              "query": [
+                {
+                  "key": "per_page",
+                  "value": "{{per_page}}",
+                  "description": "Number of items per page"
+                },
+                {
+                  "key": "page",
+                  "value": "{{page}}",
+                  "description": "Page number"
+                },
+                {
+                  "key": "category_uuid",
+                  "value": "{{category_uuid}}",
+                  "description": "Filter by category UUID",
+                  "disabled": true
+                },
+                {
+                  "key": "city_uuid",
+                  "value": "{{city_uuid}}",
+                  "description": "Filter by city UUID",
+                  "disabled": true
+                },
+                {
+                  "key": "district_uuid",
+                  "value": "{{district_uuid}}",
+                  "description": "Filter by district UUID",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "{{search}}",
+                  "description": "Search in name and description",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "approved",
+                  "description": "Filter by status",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Get paginated list of approved listings (public access)",
+            "name": "List Approved Listings (Public)",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ]
+          },
+          "response": [
+            {
+              "name": "Success Response - Approved Listings",
+              "originalRequest": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{base_url}}/listings?per_page={{per_page}}&page={{page}}",
+                  "query": [
+                    {
+                      "key": "per_page",
+                      "value": "20"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "{\n    \"success\": true,\n    \"message\": \"Listings retrieved successfully\",\n    \"data\": {\n        \"data\": [\n            {\n                \"uuid\": \"0198d5bf-c001-72d1-8c56-b4824c7f7650\",\n                \"unique_number\": \"LST-2025-000001\",\n                \"name\": \"iPhone 15 Pro Max\",\n                \"description\": \"Brand new iPhone 15 Pro Max 256GB Space Black\",\n                \"image_path\": \"listings/iphone-15-pro.jpg\",\n                \"image_url\": \"http://localhost:8080/storage/listings/iphone-15-pro.jpg\",\n                \"status\": \"approved\",\n                \"status_description\": \"Approved\",\n                \"is_approved\": true,\n                \"is_pending\": false,\n                \"is_rejected\": false,\n                \"category\": {\n                    \"uuid\": \"0198d5bf-c002-72d1-8c56-b4824c7f7651\",\n                    \"name\": \"Smartphones\",\n                    \"slug\": \"smartphones\"\n                },\n                \"city\": {\n                    \"uuid\": \"0198d5bf-c003-72d1-8c56-b4824c7f7652\",\n                    \"name\": \"Istanbul\",\n                    \"plate_code\": \"34\"\n                },\n                \"district\": {\n                    \"uuid\": \"0198d5bf-c004-72d1-8c56-b4824c7f7653\",\n                    \"name\": \"Kadikoy\"\n                },\n                \"user\": {\n                    \"uuid\": \"0198d5bf-c005-72d1-8c56-b4824c7f7654\",\n                    \"name\": \"John Doe\"\n                },\n                \"created_at\": \"2025-09-05T15:30:00+00:00\",\n                \"updated_at\": \"2025-09-05T16:45:00+00:00\"\n            }\n        ],\n        \"links\": {\n            \"first\": \"http://localhost:8080/listings?page=1\",\n            \"last\": \"http://localhost:8080/listings?page=3\",\n            \"prev\": null,\n            \"next\": \"http://localhost:8080/listings?page=2\"\n        },\n        \"meta\": {\n            \"current_page\": 1,\n            \"from\": 1,\n            \"last_page\": 3,\n            \"per_page\": 20,\n            \"to\": 20,\n            \"total\": 57,\n            \"count\": 20\n        }\n    },\n    \"errors\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Listing Details (Public)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/listings/{{listing_uuid}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "listings",
+                "{{listing_uuid}}"
+              ]
+            },
+            "description": "Get detailed information about a specific listing",
+            "name": "Get Listing Details (Public)",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ]
+          },
+          "response": [
+            {
+              "name": "Success Response - Listing Details",
+              "originalRequest": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{base_url}}/listings/{{listing_uuid}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "listings",
+                    "{{listing_uuid}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "{\n    \"success\": true,\n    \"message\": \"Listing retrieved successfully\",\n    \"data\": {\n        \"uuid\": \"0198d5bf-c001-72d1-8c56-b4824c7f7650\",\n        \"unique_number\": \"LST-2025-000001\",\n        \"name\": \"iPhone 15 Pro Max\",\n        \"description\": \"Brand new iPhone 15 Pro Max 256GB Space Black. Comes with original box and all accessories. Never used, still sealed.\",\n        \"image_path\": \"listings/iphone-15-pro.jpg\",\n        \"image_url\": \"http://localhost:8080/storage/listings/iphone-15-pro.jpg\",\n        \"status\": \"approved\",\n        \"status_description\": \"Approved\",\n        \"is_approved\": true,\n        \"is_pending\": false,\n        \"is_rejected\": false,\n        \"category\": {\n            \"uuid\": \"0198d5bf-c002-72d1-8c56-b4824c7f7651\",\n            \"name\": \"Smartphones\",\n            \"slug\": \"smartphones\",\n            \"description\": \"Mobile phones and accessories\"\n        },\n        \"city\": {\n            \"uuid\": \"0198d5bf-c003-72d1-8c56-b4824c7f7652\",\n            \"name\": \"Istanbul\",\n            \"plate_code\": \"34\"\n        },\n        \"district\": {\n            \"uuid\": \"0198d5bf-c004-72d1-8c56-b4824c7f7653\",\n            \"name\": \"Kadikoy\"\n        },\n        \"user\": {\n            \"uuid\": \"0198d5bf-c005-72d1-8c56-b4824c7f7654\",\n            \"name\": \"John Doe\"\n        },\n        \"created_at\": \"2025-09-05T15:30:00+00:00\",\n        \"updated_at\": \"2025-09-05T16:45:00+00:00\"\n    },\n    \"errors\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "Create Listing (Auth Required)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "iPhone 15 Pro Max",
+                  "type": "text",
+                  "description": "Listing title"
+                },
+                {
+                  "key": "description",
+                  "value": "Brand new iPhone 15 Pro Max 256GB Space Black",
+                  "type": "text",
+                  "description": "Detailed description"
+                },
+                {
+                  "key": "category_uuid",
+                  "value": "{{category_uuid}}",
+                  "type": "text",
+                  "description": "Category UUID"
+                },
+                {
+                  "key": "city_uuid",
+                  "value": "{{city_uuid}}",
+                  "type": "text",
+                  "description": "City UUID"
+                },
+                {
+                  "key": "district_uuid",
+                  "value": "{{district_uuid}}",
+                  "type": "text",
+                  "description": "District UUID"
+                },
+                {
+                  "key": "images[]",
+                  "type": "file",
+                  "src": [],
+                  "description": "Multiple listing image files (max 5)"
+                },
+                {
+                  "key": "images[]",
+                  "type": "file",
+                  "src": [],
+                  "description": "Additional image file (optional)",
+                  "disabled": true
+                },
+                {
+                  "key": "images[]",
+                  "type": "file",
+                  "src": [],
+                  "description": "Additional image file (optional)",
+                  "disabled": true
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/listings",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "listings"
+              ]
+            },
+            "description": "Create a new listing (requires authentication)",
+            "name": "Create Listing (Auth Required)"
+          },
+          "response": [
+            {
+              "name": "Success Response - Listing Created",
+              "originalRequest": {
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "name",
+                      "value": "iPhone 15 Pro Max",
+                      "type": "text"
+                    },
+                    {
+                      "key": "description",
+                      "value": "Brand new iPhone 15 Pro Max 256GB Space Black",
+                      "type": "text"
+                    },
+                    {
+                      "key": "category_uuid",
+                      "value": "{{category_uuid}}",
+                      "type": "text"
+                    },
+                    {
+                      "key": "city_uuid",
+                      "value": "{{city_uuid}}",
+                      "type": "text"
+                    },
+                    {
+                      "key": "district_uuid",
+                      "value": "{{district_uuid}}",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": "{{base_url}}/listings"
+              },
+              "status": "Created",
+              "code": 201,
+              "body": "{\n    \"success\": true,\n    \"message\": \"Listing created successfully\",\n    \"data\": {\n        \"uuid\": \"0198d5bf-c001-72d1-8c56-b4824c7f7650\",\n        \"unique_number\": \"LST-2025-000001\",\n        \"name\": \"iPhone 15 Pro Max\",\n        \"description\": \"Brand new iPhone 15 Pro Max 256GB Space Black\",\n        \"image_path\": null,\n        \"image_url\": null,\n        \"status\": \"pending\",\n        \"status_description\": \"Pending Approval\",\n        \"is_approved\": false,\n        \"is_pending\": true,\n        \"is_rejected\": false,\n        \"category\": {\n            \"uuid\": \"0198d5bf-c002-72d1-8c56-b4824c7f7651\",\n            \"name\": \"Smartphones\",\n            \"slug\": \"smartphones\"\n        },\n        \"city\": {\n            \"uuid\": \"0198d5bf-c003-72d1-8c56-b4824c7f7652\",\n            \"name\": \"Istanbul\",\n            \"plate_code\": \"34\"\n        },\n        \"district\": {\n            \"uuid\": \"0198d5bf-c004-72d1-8c56-b4824c7f7653\",\n            \"name\": \"Kadikoy\"\n        },\n        \"user\": {\n            \"uuid\": \"0198d5bf-c005-72d1-8c56-b4824c7f7654\",\n            \"name\": \"John Doe\"\n        },\n        \"created_at\": \"2025-09-05T15:30:00+00:00\",\n        \"updated_at\": \"2025-09-05T15:30:00+00:00\"\n    },\n    \"errors\": []\n}"
+            },
+            {
+              "name": "Validation Error",
+              "originalRequest": {
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "name",
+                      "value": "",
+                      "type": "text"
+                    },
+                    {
+                      "key": "description",
+                      "value": "",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": "{{base_url}}/listings"
+              },
+              "status": "Unprocessable Entity",
+              "code": 422,
+              "body": "{\n    \"success\": false,\n    \"message\": \"Validation failed\",\n    \"data\": null,\n    \"errors\": [\n        \"The name field is required\",\n        \"The description field is required\",\n        \"The category uuid field is required\",\n        \"The city uuid field is required\",\n        \"The district uuid field is required\",\n        \"At least one image is required\",\n        \"Maximum 5 images are allowed\",\n        \"Each image must be jpeg, png, jpg, or webp format\",\n        \"Each image size cannot exceed 2MB\"\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update Listing (Owner/Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Updated iPhone 15 Pro Max",
+                  "type": "text",
+                  "description": "Updated listing title"
+                },
+                {
+                  "key": "description",
+                  "value": "Updated description for iPhone 15 Pro Max",
+                  "type": "text",
+                  "description": "Updated detailed description"
+                },
+                {
+                  "key": "category_uuid",
+                  "value": "{{category_uuid}}",
+                  "type": "text",
+                  "description": "Category UUID"
+                },
+                {
+                  "key": "city_uuid",
+                  "value": "{{city_uuid}}",
+                  "type": "text",
+                  "description": "City UUID"
+                },
+                {
+                  "key": "district_uuid",
+                  "value": "{{district_uuid}}",
+                  "type": "text",
+                  "description": "District UUID"
+                },
+                {
+                  "key": "images[]",
+                  "type": "file",
+                  "src": [],
+                  "description": "New listing image files (max 5)",
+                  "disabled": true
+                },
+                {
+                  "key": "images[]",
+                  "type": "file",
+                  "src": [],
+                  "description": "Additional image file (optional)",
+                  "disabled": true
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/listings/{{listing_uuid}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "listings",
+                "{{listing_uuid}}"
+              ]
+            },
+            "description": "Update listing (owner or admin only)",
+            "name": "Update Listing (Owner/Admin)"
+          },
+          "response": [
+            {
+              "name": "Success Response - Listing Updated",
+              "originalRequest": {
+                "method": "PUT",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "name",
+                      "value": "Updated iPhone 15 Pro Max",
+                      "type": "text"
+                    },
+                    {
+                      "key": "description",
+                      "value": "Updated description",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": "{{base_url}}/listings/{{listing_uuid}}"
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "{\n    \"success\": true,\n    \"message\": \"Listing updated successfully\",\n    \"data\": {\n        \"uuid\": \"0198d5bf-c001-72d1-8c56-b4824c7f7650\",\n        \"unique_number\": \"LST-2025-000001\",\n        \"name\": \"Updated iPhone 15 Pro Max\",\n        \"description\": \"Updated description for iPhone 15 Pro Max\",\n        \"image_path\": \"listings/iphone-15-pro.jpg\",\n        \"image_url\": \"http://localhost:8080/storage/listings/iphone-15-pro.jpg\",\n        \"status\": \"pending\",\n        \"status_description\": \"Pending Approval\",\n        \"is_approved\": false,\n        \"is_pending\": true,\n        \"is_rejected\": false,\n        \"created_at\": \"2025-09-05T15:30:00+00:00\",\n        \"updated_at\": \"2025-09-05T17:15:00+00:00\"\n    },\n    \"errors\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "Delete Listing (Soft Delete)",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/listings/{{listing_uuid}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "listings",
+                "{{listing_uuid}}"
+              ]
+            },
+            "description": "Soft delete a listing (owner or admin only)",
+            "name": "Delete Listing (Soft Delete)",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ]
+          },
+          "response": [
+            {
+              "name": "Success Response - Listing Deleted",
+              "originalRequest": {
+                "method": "DELETE",
+                "url": {
+                  "raw": "{{base_url}}/listings/{{listing_uuid}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "listings",
+                    "{{listing_uuid}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "{\n    \"success\": true,\n    \"message\": \"Listing deleted successfully\",\n    \"data\": null,\n    \"errors\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get My Listings (Auth Required)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/listings/my?per_page={{per_page}}&page={{page}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "listings",
+                "my"
+              ],
+              "query": [
+                {
+                  "key": "per_page",
+                  "value": "{{per_page}}",
+                  "description": "Number of items per page"
+                },
+                {
+                  "key": "page",
+                  "value": "{{page}}",
+                  "description": "Page number"
+                },
+                {
+                  "key": "status",
+                  "value": "pending",
+                  "description": "Filter by status",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Get current user's listings with all statuses",
+            "name": "Get My Listings (Auth Required)",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ]
+          },
+          "response": [
+            {
+              "name": "Success Response - My Listings",
+              "originalRequest": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{base_url}}/listings/my?per_page={{per_page}}&page={{page}}",
+                  "query": [
+                    {
+                      "key": "per_page",
+                      "value": "20"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "{\n    \"success\": true,\n    \"message\": \"User listings retrieved successfully\",\n    \"data\": {\n        \"data\": [\n            {\n                \"uuid\": \"0198d5bf-c001-72d1-8c56-b4824c7f7650\",\n                \"unique_number\": \"LST-2025-000001\",\n                \"name\": \"iPhone 15 Pro Max\",\n                \"description\": \"Brand new iPhone 15 Pro Max 256GB Space Black\",\n                \"image_url\": \"http://localhost:8080/storage/listings/iphone-15-pro.jpg\",\n                \"status\": \"pending\",\n                \"status_description\": \"Pending Approval\",\n                \"is_approved\": false,\n                \"is_pending\": true,\n                \"is_rejected\": false,\n                \"approved_by\": null,\n                \"approved_at\": null,\n                \"rejection_reason\": null,\n                \"created_at\": \"2025-09-05T15:30:00+00:00\",\n                \"updated_at\": \"2025-09-05T15:30:00+00:00\"\n            }\n        ],\n        \"meta\": {\n            \"total\": 5,\n            \"count\": 5\n        }\n    },\n    \"errors\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Pending Listings (Admin Only)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/listings/pending?per_page={{per_page}}&page={{page}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "listings",
+                "pending"
+              ],
+              "query": [
+                {
+                  "key": "per_page",
+                  "value": "{{per_page}}",
+                  "description": "Number of items per page"
+                },
+                {
+                  "key": "page",
+                  "value": "{{page}}",
+                  "description": "Page number"
+                }
+              ]
+            },
+            "description": "Get all pending listings for admin approval",
+            "name": "Get Pending Listings (Admin Only)",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ]
+          },
+          "response": [
+            {
+              "name": "Success Response - Pending Listings",
+              "originalRequest": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{base_url}}/listings/pending?per_page={{per_page}}&page={{page}}",
+                  "query": [
+                    {
+                      "key": "per_page",
+                      "value": "20"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "{\n    \"success\": true,\n    \"message\": \"Pending listings retrieved successfully\",\n    \"data\": {\n        \"data\": [\n            {\n                \"uuid\": \"0198d5bf-c001-72d1-8c56-b4824c7f7650\",\n                \"unique_number\": \"LST-2025-000001\",\n                \"name\": \"iPhone 15 Pro Max\",\n                \"description\": \"Brand new iPhone 15 Pro Max 256GB Space Black\",\n                \"image_url\": \"http://localhost:8080/storage/listings/iphone-15-pro.jpg\",\n                \"status\": \"pending\",\n                \"status_description\": \"Pending Approval\",\n                \"user\": {\n                    \"uuid\": \"0198d5bf-c005-72d1-8c56-b4824c7f7654\",\n                    \"name\": \"John Doe\",\n                    \"email\": \"john@example.com\"\n                },\n                \"created_at\": \"2025-09-05T15:30:00+00:00\",\n                \"updated_at\": \"2025-09-05T15:30:00+00:00\"\n            }\n        ],\n        \"meta\": {\n            \"total\": 12,\n            \"count\": 12\n        }\n    },\n    \"errors\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "Approve Listing (Admin Only)",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/listings/{{listing_uuid}}/approve",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "listings",
+                "{{listing_uuid}}",
+                "approve"
+              ]
+            },
+            "description": "Approve a pending listing (admin only)",
+            "name": "Approve Listing (Admin Only)",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ]
+          },
+          "response": [
+            {
+              "name": "Success Response - Listing Approved",
+              "originalRequest": {
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}"
+                },
+                "url": "{{base_url}}/listings/{{listing_uuid}}/approve"
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "{\n    \"success\": true,\n    \"message\": \"Listing approved successfully\",\n    \"data\": {\n        \"uuid\": \"0198d5bf-c001-72d1-8c56-b4824c7f7650\",\n        \"unique_number\": \"LST-2025-000001\",\n        \"name\": \"iPhone 15 Pro Max\",\n        \"status\": \"approved\",\n        \"status_description\": \"Approved\",\n        \"is_approved\": true,\n        \"is_pending\": false,\n        \"is_rejected\": false,\n        \"approved_by\": {\n            \"uuid\": \"0198d5bf-c008-72d1-8c56-b4824c7f7658\",\n            \"name\": \"Admin User\"\n        },\n        \"approved_at\": \"2025-09-05T18:00:00+00:00\",\n        \"created_at\": \"2025-09-05T15:30:00+00:00\",\n        \"updated_at\": \"2025-09-05T18:00:00+00:00\"\n    },\n    \"errors\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "Reject Listing (Admin Only)",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Inappropriate content or misleading information\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/listings/{{listing_uuid}}/reject",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "listings",
+                "{{listing_uuid}}",
+                "reject"
+              ]
+            },
+            "description": "Reject a pending listing with reason (admin only)",
+            "name": "Reject Listing (Admin Only)",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ]
+          },
+          "response": [
+            {
+              "name": "Success Response - Listing Rejected",
+              "originalRequest": {
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"Inappropriate content or misleading information\"\n}"
+                },
+                "url": "{{base_url}}/listings/{{listing_uuid}}/reject"
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "{\n    \"success\": true,\n    \"message\": \"Listing rejected successfully\",\n    \"data\": {\n        \"uuid\": \"0198d5bf-c001-72d1-8c56-b4824c7f7650\",\n        \"unique_number\": \"LST-2025-000001\",\n        \"name\": \"iPhone 15 Pro Max\",\n        \"status\": \"rejected\",\n        \"status_description\": \"Rejected\",\n        \"is_approved\": false,\n        \"is_pending\": false,\n        \"is_rejected\": true,\n        \"rejection_reason\": \"Inappropriate content or misleading information\",\n        \"created_at\": \"2025-09-05T15:30:00+00:00\",\n        \"updated_at\": \"2025-09-05T18:05:00+00:00\"\n    },\n    \"errors\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "Restore Listing (Admin Only)",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/listings/{{listing_uuid}}/restore",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "listings",
+                "{{listing_uuid}}",
+                "restore"
+              ]
+            },
+            "description": "Restore a soft deleted listing (admin only)",
+            "name": "Restore Listing (Admin Only)",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ]
+          },
+          "response": [
+            {
+              "name": "Success Response - Listing Restored",
+              "originalRequest": {
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}"
+                },
+                "url": "{{base_url}}/listings/{{listing_uuid}}/restore"
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "{\n    \"success\": true,\n    \"message\": \"Listing restored successfully\",\n    \"data\": null,\n    \"errors\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "Force Delete Listing (Admin Only)",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/listings/{{listing_uuid}}/force-delete",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "listings",
+                "{{listing_uuid}}",
+                "force-delete"
+              ]
+            },
+            "description": "Permanently delete a listing (admin only)",
+            "name": "Force Delete Listing (Admin Only)",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ]
+          },
+          "response": [
+            {
+              "name": "Success Response - Listing Force Deleted",
+              "originalRequest": {
+                "method": "DELETE",
+                "url": {
+                  "raw": "{{base_url}}/listings/{{listing_uuid}}/force-delete",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "listings",
+                    "{{listing_uuid}}",
+                    "force-delete"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "{\n    \"success\": true,\n    \"message\": \"Listing permanently deleted successfully\",\n    \"data\": null,\n    \"errors\": []\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Health Check",
+      "description": "Health check and system status endpoints",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "health"
+              ]
+            },
+            "description": "Check the health status of the API",
+            "name": "Health Check",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin Management",
+      "description": "Administrative endpoints for dashboard analytics and system management",
+      "item": [
+        {
+          "name": "Admin Dashboard",
+          "description": "Admin dashboard overview and analytics",
+          "item": [
+            {
+              "name": "Get Dashboard Overview",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{base_url}}/admin/dashboard",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "dashboard"
+                  ]
+                },
+                "description": "Get admin dashboard overview with key metrics, recent activities, and summary statistics",
+                "name": "Get Dashboard Overview",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Categories",
+          "description": "Category management with hierarchy support and full CRUD operations",
+          "item": [
+            {
+              "name": "List Categories",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{base_url}}/categories?per_page={{per_page}}&page={{page}}&sort_by=created_at&sort_direction=desc",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "categories"
+                  ],
+                  "query": [
+                    {
+                      "key": "per_page",
+                      "value": "{{per_page}}",
+                      "description": "Number of items per page (centralized)"
+                    },
+                    {
+                      "key": "page",
+                      "value": "{{page}}",
+                      "description": "Page number (centralized)"
+                    },
+                    {
+                      "key": "search",
+                      "value": "{{search}}",
+                      "description": "Search in name and description (centralized)",
+                      "disabled": true
+                    },
+                    {
+                      "key": "status",
+                      "value": "active",
+                      "description": "Filter by status",
+                      "disabled": true
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "created_at",
+                      "description": "Sort by field"
+                    },
+                    {
+                      "key": "sort_direction",
+                      "value": "desc",
+                      "description": "Sort direction (asc, desc)"
+                    }
+                  ]
+                },
+                "description": "Retrieve paginated list of categories with filtering options",
+                "name": "List Categories",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response - Categories List",
+                  "originalRequest": {
+                    "method": "GET",
+                    "url": {
+                      "raw": "{{base_url}}/categories?per_page={{per_page}}&page={{page}}&sort_by=created_at&sort_direction=desc",
+                      "query": [
+                        {
+                          "key": "per_page",
+                          "value": "25"
+                        },
+                        {
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "key": "sort_by",
+                          "value": "created_at"
+                        },
+                        {
+                          "key": "sort_direction",
+                          "value": "desc"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Categories retrieved successfully\",\n    \"data\": {\n        \"current_page\": 1,\n        \"data\": [\n            {\n                \"uuid\": \"0198d5bf-c001-72d1-8c56-b4824c7f7650\",\n                \"name\": \"Electronics\",\n                \"description\": \"Electronic devices and gadgets\",\n                \"status\": \"active\",\n                \"products_count\": 25,\n                \"created_at\": \"2025-08-23T19:00:00.000000Z\",\n                \"updated_at\": \"2025-08-23T19:00:00.000000Z\",\n                \"deleted_at\": null\n            },\n            {\n                \"uuid\": \"0198d5bf-c002-72d1-8c56-b4824c7f7651\",\n                \"name\": \"Clothing\",\n                \"description\": \"Fashion and apparel items\",\n                \"status\": \"active\",\n                \"products_count\": 18,\n                \"created_at\": \"2025-08-23T18:45:00.000000Z\",\n                \"updated_at\": \"2025-08-23T18:45:00.000000Z\",\n                \"deleted_at\": null\n            },\n            {\n                \"uuid\": \"0198d5bf-c003-72d1-8c56-b4824c7f7652\",\n                \"name\": \"Home & Garden\",\n                \"description\": \"Home improvement and garden supplies\",\n                \"status\": \"inactive\",\n                \"products_count\": 7,\n                \"created_at\": \"2025-08-23T18:30:00.000000Z\",\n                \"updated_at\": \"2025-08-23T18:35:00.000000Z\",\n                \"deleted_at\": null\n            }\n        ],\n        \"first_page_url\": \"http://localhost:8080/categories?page=1\",\n        \"from\": 1,\n        \"last_page\": 3,\n        \"last_page_url\": \"http://localhost:8080/categories?page=3\",\n        \"next_page_url\": \"http://localhost:8080/categories?page=2\",\n        \"path\": \"http://localhost:8080/categories\",\n        \"per_page\": 25,\n        \"prev_page_url\": null,\n        \"to\": 25,\n        \"total\": 67\n    },\n    \"errors\": []\n}"
+                }
+              ]
+            },
+            {
+              "name": "Create Category",
+              "request": {
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Electronics\",\n  \"description\": \"Electronic devices and gadgets\",\n  \"status\": \"active\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/categories",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "categories"
+                  ]
+                },
+                "description": "Create a new category",
+                "name": "Create Category",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response",
+                  "originalRequest": {
+                    "method": "POST",
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"Electronics\",\n  \"description\": \"Electronic devices and gadgets\",\n  \"status\": \"active\"\n}"
+                    },
+                    "url": "{{base_url}}/categories"
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Category created successfully\",\n    \"data\": {\n        \"uuid\": \"0198d5bf-c001-72d1-8c56-b4824c7f7650\",\n        \"name\": \"Electronics\",\n        \"description\": \"Electronic devices and gadgets\",\n        \"status\": \"active\",\n        \"products_count\": 0,\n        \"created_at\": \"2025-08-23T19:00:00.000000Z\",\n        \"updated_at\": \"2025-08-23T19:00:00.000000Z\",\n        \"deleted_at\": null\n    },\n    \"errors\": []\n}"
+                },
+                {
+                  "name": "Validation Error",
+                  "originalRequest": {
+                    "method": "POST",
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"\",\n  \"description\": \"\"\n}"
+                    },
+                    "url": "{{base_url}}/categories"
+                  },
+                  "status": "Unprocessable Entity",
+                  "code": 422,
+                  "body": "{\n    \"success\": false,\n    \"message\": \"Validation failed\",\n    \"data\": null,\n    \"errors\": [\n        \"The name field is required\",\n        \"The description field is required\"\n    ]\n}"
+                }
+              ]
+            },
+            {
+              "name": "Get Category",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{base_url}}/categories/{{category_uuid}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "categories",
+                    "{{category_uuid}}"
+                  ]
+                },
+                "description": "Get a specific category by ID",
+                "name": "Get Category",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response",
+                  "originalRequest": {
+                    "method": "POST",
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"Electronics\",\n  \"description\": \"Electronic devices and gadgets\",\n  \"status\": \"active\"\n}"
+                    },
+                    "url": "{{base_url}}/categories"
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Category created successfully\",\n    \"data\": {\n        \"uuid\": \"0198d5bf-c001-72d1-8c56-b4824c7f7650\",\n        \"name\": \"Electronics\",\n        \"description\": \"Electronic devices and gadgets\",\n        \"status\": \"active\",\n        \"products_count\": 0,\n        \"created_at\": \"2025-08-23T19:00:00.000000Z\",\n        \"updated_at\": \"2025-08-23T19:00:00.000000Z\",\n        \"deleted_at\": null\n    },\n    \"errors\": []\n}"
+                },
+                {
+                  "name": "Validation Error",
+                  "originalRequest": {
+                    "method": "POST",
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"\",\n  \"description\": \"\"\n}"
+                    },
+                    "url": "{{base_url}}/categories"
+                  },
+                  "status": "Unprocessable Entity",
+                  "code": 422,
+                  "body": "{\n    \"success\": false,\n    \"message\": \"Validation failed\",\n    \"data\": null,\n    \"errors\": [\n        \"The name field is required\",\n        \"The description field is required\"\n    ]\n}"
+                }
+              ]
+            },
+            {
+              "name": "Update Category",
+              "request": {
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Updated Electronics\",\n  \"description\": \"Updated description for electronic devices and gadgets\",\n  \"status\": \"active\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/categories/{{category_uuid}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "categories",
+                    "{{category_uuid}}"
+                  ]
+                },
+                "description": "Update a specific category",
+                "name": "Update Category",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response",
+                  "originalRequest": {
+                    "method": "POST",
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"Electronics\",\n  \"description\": \"Electronic devices and gadgets\",\n  \"status\": \"active\"\n}"
+                    },
+                    "url": "{{base_url}}/categories"
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Category created successfully\",\n    \"data\": {\n        \"uuid\": \"0198d5bf-c001-72d1-8c56-b4824c7f7650\",\n        \"name\": \"Electronics\",\n        \"description\": \"Electronic devices and gadgets\",\n        \"status\": \"active\",\n        \"products_count\": 0,\n        \"created_at\": \"2025-08-23T19:00:00.000000Z\",\n        \"updated_at\": \"2025-08-23T19:00:00.000000Z\",\n        \"deleted_at\": null\n    },\n    \"errors\": []\n}"
+                },
+                {
+                  "name": "Validation Error",
+                  "originalRequest": {
+                    "method": "POST",
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"\",\n  \"description\": \"\"\n}"
+                    },
+                    "url": "{{base_url}}/categories"
+                  },
+                  "status": "Unprocessable Entity",
+                  "code": 422,
+                  "body": "{\n    \"success\": false,\n    \"message\": \"Validation failed\",\n    \"data\": null,\n    \"errors\": [\n        \"The name field is required\",\n        \"The description field is required\"\n    ]\n}"
+                }
+              ]
+            },
+            {
+              "name": "Delete Category (Soft Delete)",
+              "request": {
+                "method": "DELETE",
+                "url": {
+                  "raw": "{{base_url}}/categories/{{category_uuid}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "categories",
+                    "{{category_uuid}}"
+                  ]
+                },
+                "description": "Soft delete a specific category",
+                "name": "Delete Category (Soft Delete)",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response",
+                  "originalRequest": {
+                    "method": "POST",
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"Electronics\",\n  \"description\": \"Electronic devices and gadgets\",\n  \"status\": \"active\"\n}"
+                    },
+                    "url": "{{base_url}}/categories"
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Category created successfully\",\n    \"data\": {\n        \"uuid\": \"0198d5bf-c001-72d1-8c56-b4824c7f7650\",\n        \"name\": \"Electronics\",\n        \"description\": \"Electronic devices and gadgets\",\n        \"status\": \"active\",\n        \"products_count\": 0,\n        \"created_at\": \"2025-08-23T19:00:00.000000Z\",\n        \"updated_at\": \"2025-08-23T19:00:00.000000Z\",\n        \"deleted_at\": null\n    },\n    \"errors\": []\n}"
+                },
+                {
+                  "name": "Validation Error",
+                  "originalRequest": {
+                    "method": "POST",
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"\",\n  \"description\": \"\"\n}"
+                    },
+                    "url": "{{base_url}}/categories"
+                  },
+                  "status": "Unprocessable Entity",
+                  "code": 422,
+                  "body": "{\n    \"success\": false,\n    \"message\": \"Validation failed\",\n    \"data\": null,\n    \"errors\": [\n        \"The name field is required\",\n        \"The description field is required\"\n    ]\n}"
+                }
+              ]
+            },
+            {
+              "name": "Restore Category",
+              "request": {
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/categories/{{category_uuid}}/restore",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "categories",
+                    "{{category_uuid}}",
+                    "restore"
+                  ]
+                },
+                "description": "Restore a soft deleted category",
+                "name": "Restore Category",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response",
+                  "originalRequest": {
+                    "method": "POST",
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"Electronics\",\n  \"description\": \"Electronic devices and gadgets\",\n  \"status\": \"active\"\n}"
+                    },
+                    "url": "{{base_url}}/categories"
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Category created successfully\",\n    \"data\": {\n        \"uuid\": \"0198d5bf-c001-72d1-8c56-b4824c7f7650\",\n        \"name\": \"Electronics\",\n        \"description\": \"Electronic devices and gadgets\",\n        \"status\": \"active\",\n        \"products_count\": 0,\n        \"created_at\": \"2025-08-23T19:00:00.000000Z\",\n        \"updated_at\": \"2025-08-23T19:00:00.000000Z\",\n        \"deleted_at\": null\n    },\n    \"errors\": []\n}"
+                },
+                {
+                  "name": "Validation Error",
+                  "originalRequest": {
+                    "method": "POST",
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"\",\n  \"description\": \"\"\n}"
+                    },
+                    "url": "{{base_url}}/categories"
+                  },
+                  "status": "Unprocessable Entity",
+                  "code": 422,
+                  "body": "{\n    \"success\": false,\n    \"message\": \"Validation failed\",\n    \"data\": null,\n    \"errors\": [\n        \"The name field is required\",\n        \"The description field is required\"\n    ]\n}"
+                }
+              ]
+            },
+            {
+              "name": "Force Delete Category",
+              "request": {
+                "method": "DELETE",
+                "url": {
+                  "raw": "{{base_url}}/categories/{{category_uuid}}/force-delete",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "categories",
+                    "{{category_uuid}}",
+                    "force-delete"
+                  ]
+                },
+                "description": "Permanently delete a category",
+                "name": "Force Delete Category",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response",
+                  "originalRequest": {
+                    "method": "POST",
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"Electronics\",\n  \"description\": \"Electronic devices and gadgets\",\n  \"status\": \"active\"\n}"
+                    },
+                    "url": "{{base_url}}/categories"
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Category created successfully\",\n    \"data\": {\n        \"uuid\": \"0198d5bf-c001-72d1-8c56-b4824c7f7650\",\n        \"name\": \"Electronics\",\n        \"description\": \"Electronic devices and gadgets\",\n        \"status\": \"active\",\n        \"products_count\": 0,\n        \"created_at\": \"2025-08-23T19:00:00.000000Z\",\n        \"updated_at\": \"2025-08-23T19:00:00.000000Z\",\n        \"deleted_at\": null\n    },\n    \"errors\": []\n}"
+                },
+                {
+                  "name": "Validation Error",
+                  "originalRequest": {
+                    "method": "POST",
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"\",\n  \"description\": \"\"\n}"
+                    },
+                    "url": "{{base_url}}/categories"
+                  },
+                  "status": "Unprocessable Entity",
+                  "code": 422,
+                  "body": "{\n    \"success\": false,\n    \"message\": \"Validation failed\",\n    \"data\": null,\n    \"errors\": [\n        \"The name field is required\",\n        \"The description field is required\"\n    ]\n}"
+                }
+              ]
+            },
+            {
+              "name": "Get Root Categories",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{base_url}}/categories/roots",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "categories",
+                    "roots"
+                  ]
+                },
+                "description": "Get all root categories (categories without parent)",
+                "name": "Get Root Categories",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response - Root Categories",
+                  "originalRequest": {
+                    "method": "GET",
+                    "url": {
+                      "raw": "{{base_url}}/categories/roots",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "categories",
+                        "roots"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Root categories retrieved successfully\",\n    \"data\": {\n        \"data\": [\n            {\n                \"uuid\": \"0198d5bf-c001-72d1-8c56-b4824c7f7650\",\n                \"name\": \"Electronics\",\n                \"description\": \"Electronic devices and gadgets\",\n                \"slug\": \"electronics\",\n                \"is_active\": true,\n                \"sort_order\": 1,\n                \"icon\": \"electronics.svg\",\n                \"parent_uuid\": null,\n                \"listings_count\": 15,\n                \"created_at\": \"2025-08-23T19:00:00+00:00\",\n                \"updated_at\": \"2025-08-23T19:00:00+00:00\"\n            }\n        ],\n        \"meta\": {\n            \"total\": 5,\n            \"count\": 5\n        }\n    },\n    \"errors\": []\n}"
+                }
+              ]
+            },
+            {
+              "name": "Get Category Children",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{base_url}}/categories/{{category_uuid}}/children",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "categories",
+                    "{{category_uuid}}",
+                    "children"
+                  ]
+                },
+                "description": "Get all children of a specific category",
+                "name": "Get Category Children",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response - Category Children",
+                  "originalRequest": {
+                    "method": "GET",
+                    "url": {
+                      "raw": "{{base_url}}/categories/{{category_uuid}}/children",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "categories",
+                        "{{category_uuid}}",
+                        "children"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Category children retrieved successfully\",\n    \"data\": {\n        \"data\": [\n            {\n                \"uuid\": \"0198d5bf-c002-72d1-8c56-b4824c7f7651\",\n                \"name\": \"Smartphones\",\n                \"description\": \"Mobile phones and accessories\",\n                \"slug\": \"smartphones\",\n                \"is_active\": true,\n                \"sort_order\": 1,\n                \"icon\": \"phone.svg\",\n                \"parent_uuid\": \"0198d5bf-c001-72d1-8c56-b4824c7f7650\",\n                \"listings_count\": 8,\n                \"created_at\": \"2025-08-23T19:05:00+00:00\",\n                \"updated_at\": \"2025-08-23T19:05:00+00:00\"\n            }\n        ],\n        \"meta\": {\n            \"total\": 3,\n            \"count\": 3\n        }\n    },\n    \"errors\": []\n}"
+                }
+              ]
+            },
+            {
+              "name": "Get Category Hierarchy",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{base_url}}/categories/hierarchy",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "categories",
+                    "hierarchy"
+                  ]
+                },
+                "description": "Get complete category hierarchy with parent-child relationships",
+                "name": "Get Category Hierarchy",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response - Category Hierarchy",
+                  "originalRequest": {
+                    "method": "GET",
+                    "url": {
+                      "raw": "{{base_url}}/categories/hierarchy",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "categories",
+                        "hierarchy"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Category hierarchy retrieved successfully\",\n    \"data\": {\n        \"data\": [\n            {\n                \"uuid\": \"0198d5bf-c001-72d1-8c56-b4824c7f7650\",\n                \"name\": \"Electronics\",\n                \"description\": \"Electronic devices and gadgets\",\n                \"slug\": \"electronics\",\n                \"is_active\": true,\n                \"sort_order\": 1,\n                \"icon\": \"electronics.svg\",\n                \"parent_uuid\": null,\n                \"children\": [\n                    {\n                        \"uuid\": \"0198d5bf-c002-72d1-8c56-b4824c7f7651\",\n                        \"name\": \"Smartphones\",\n                        \"slug\": \"smartphones\",\n                        \"is_active\": true,\n                        \"sort_order\": 1\n                    }\n                ],\n                \"listings_count\": 15,\n                \"created_at\": \"2025-08-23T19:00:00+00:00\",\n                \"updated_at\": \"2025-08-23T19:00:00+00:00\"\n            }\n        ],\n        \"meta\": {\n            \"total\": 5,\n            \"roots_count\": 2,\n            \"children_count\": 3\n        }\n    },\n    \"errors\": []\n}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Cities",
+          "description": "City and district management for location services",
+          "item": [
+            {
+              "$ref": "collections/admin/cities/cities.json#/item/0",
+              "name": "undefined Request 1"
+            },
+            {
+              "$ref": "collections/admin/cities/cities.json#/item/1",
+              "name": "undefined Request 2"
+            }
+          ]
+        },
+        {
+          "name": "Countries",
+          "description": "Country management with full CRUD operations",
+          "item": [
+            {
+              "name": "List Countries",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{base_url}}/countries?per_page={{page}}{{per_page}}&page={{page}}&sort_by=created_at&sort_direction=desc",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "countries"
+                  ],
+                  "query": [
+                    {
+                      "key": "per_page",
+                      "value": "25",
+                      "description": "Number of items per page"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1",
+                      "description": "Page number"
+                    },
+                    {
+                      "key": "search",
+                      "value": "",
+                      "description": "Search in name and code",
+                      "disabled": true
+                    },
+                    {
+                      "key": "active_only",
+                      "value": "true",
+                      "description": "Filter active countries only",
+                      "disabled": true
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "created_at",
+                      "description": "Sort by field"
+                    },
+                    {
+                      "key": "sort_direction",
+                      "value": "desc",
+                      "description": "Sort direction (asc, desc)"
+                    }
+                  ]
+                },
+                "description": "Retrieve paginated list of countries with filtering options",
+                "name": "List Countries",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "url": "{{base_url}}/countries"
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Countries retrieved successfully\",\n    \"data\": [\n        {\n            \"uuid\": \"0198d5bf-f001-72d1-8c56-b4824c7f7680\",\n            \"name\": \"Turkey\",\n            \"code\": \"TR\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        },\n        {\n            \"uuid\": \"0198d5bf-f002-72d1-8c56-b4824c7f7681\",\n            \"name\": \"United States\",\n            \"code\": \"US\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        }\n    ],\n    \"errors\": []\n}"
+                }
+              ]
+            },
+            {
+              "name": "Create Country",
+              "request": {
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"NL\",\n  \"name\": \"Netherlands\",\n  \"locale\": \"en-NL\",\n  \"currency_uuid\": \"{{currency_uuid}}\",\n  \"is_active\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/countries",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "countries"
+                  ]
+                },
+                "description": "Create a new country",
+                "name": "Create Country",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "url": "{{base_url}}/countries"
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Countries retrieved successfully\",\n    \"data\": [\n        {\n            \"uuid\": \"0198d5bf-f001-72d1-8c56-b4824c7f7680\",\n            \"name\": \"Turkey\",\n            \"code\": \"TR\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        },\n        {\n            \"uuid\": \"0198d5bf-f002-72d1-8c56-b4824c7f7681\",\n            \"name\": \"United States\",\n            \"code\": \"US\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        }\n    ],\n    \"errors\": []\n}"
+                }
+              ]
+            },
+            {
+              "name": "Get Country",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{base_url}}/countries/{{country_uuid}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "countries",
+                    "{{country_uuid}}"
+                  ]
+                },
+                "description": "Get a specific country by ID",
+                "name": "Get Country",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "url": "{{base_url}}/countries"
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Countries retrieved successfully\",\n    \"data\": [\n        {\n            \"uuid\": \"0198d5bf-f001-72d1-8c56-b4824c7f7680\",\n            \"name\": \"Turkey\",\n            \"code\": \"TR\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        },\n        {\n            \"uuid\": \"0198d5bf-f002-72d1-8c56-b4824c7f7681\",\n            \"name\": \"United States\",\n            \"code\": \"US\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        }\n    ],\n    \"errors\": []\n}"
+                }
+              ]
+            },
+            {
+              "name": "Update Country",
+              "request": {
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"NL\",\n  \"name\": \"Kingdom of the Netherlands\",\n  \"locale\": \"en-NL\",\n  \"currency_uuid\": \"{{currency_uuid}}\",\n  \"is_active\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/countries/{{country_uuid}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "countries",
+                    "{{country_uuid}}"
+                  ]
+                },
+                "description": "Update a specific country",
+                "name": "Update Country",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "url": "{{base_url}}/countries"
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Countries retrieved successfully\",\n    \"data\": [\n        {\n            \"uuid\": \"0198d5bf-f001-72d1-8c56-b4824c7f7680\",\n            \"name\": \"Turkey\",\n            \"code\": \"TR\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        },\n        {\n            \"uuid\": \"0198d5bf-f002-72d1-8c56-b4824c7f7681\",\n            \"name\": \"United States\",\n            \"code\": \"US\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        }\n    ],\n    \"errors\": []\n}"
+                }
+              ]
+            },
+            {
+              "name": "Delete Country (Soft Delete)",
+              "request": {
+                "method": "DELETE",
+                "url": {
+                  "raw": "{{base_url}}/countries/{{country_uuid}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "countries",
+                    "{{country_uuid}}"
+                  ]
+                },
+                "description": "Soft delete a specific country",
+                "name": "Delete Country (Soft Delete)",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "url": "{{base_url}}/countries"
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Countries retrieved successfully\",\n    \"data\": [\n        {\n            \"uuid\": \"0198d5bf-f001-72d1-8c56-b4824c7f7680\",\n            \"name\": \"Turkey\",\n            \"code\": \"TR\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        },\n        {\n            \"uuid\": \"0198d5bf-f002-72d1-8c56-b4824c7f7681\",\n            \"name\": \"United States\",\n            \"code\": \"US\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        }\n    ],\n    \"errors\": []\n}"
+                }
+              ]
+            },
+            {
+              "name": "Restore Country",
+              "request": {
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/countries/{{country_uuid}}/restore",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "countries",
+                    "{{country_uuid}}",
+                    "restore"
+                  ]
+                },
+                "description": "Restore a soft deleted country",
+                "name": "Restore Country",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "url": "{{base_url}}/countries"
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Countries retrieved successfully\",\n    \"data\": [\n        {\n            \"uuid\": \"0198d5bf-f001-72d1-8c56-b4824c7f7680\",\n            \"name\": \"Turkey\",\n            \"code\": \"TR\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        },\n        {\n            \"uuid\": \"0198d5bf-f002-72d1-8c56-b4824c7f7681\",\n            \"name\": \"United States\",\n            \"code\": \"US\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        }\n    ],\n    \"errors\": []\n}"
+                }
+              ]
+            },
+            {
+              "name": "Force Delete Country",
+              "request": {
+                "method": "DELETE",
+                "url": {
+                  "raw": "{{base_url}}/countries/{{country_uuid}}/force-delete",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "countries",
+                    "{{country_uuid}}",
+                    "force-delete"
+                  ]
+                },
+                "description": "Permanently delete a country",
+                "name": "Force Delete Country",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "url": "{{base_url}}/countries"
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Countries retrieved successfully\",\n    \"data\": [\n        {\n            \"uuid\": \"0198d5bf-f001-72d1-8c56-b4824c7f7680\",\n            \"name\": \"Turkey\",\n            \"code\": \"TR\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        },\n        {\n            \"uuid\": \"0198d5bf-f002-72d1-8c56-b4824c7f7681\",\n            \"name\": \"United States\",\n            \"code\": \"US\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        }\n    ],\n    \"errors\": []\n}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Currencies",
+          "description": "Currency management with full CRUD operations",
+          "item": [
+            {
+              "name": "List Currencies",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{base_url}}/currencies?per_page={{per_page}}&page={{page}}&sort_by=created_at&sort_direction=desc",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "currencies"
+                  ],
+                  "query": [
+                    {
+                      "key": "per_page",
+                      "value": "25",
+                      "description": "Number of items per page"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1",
+                      "description": "Page number"
+                    },
+                    {
+                      "key": "search",
+                      "value": "",
+                      "description": "Search in name and code",
+                      "disabled": true
+                    },
+                    {
+                      "key": "active_only",
+                      "value": "true",
+                      "description": "Filter active currencies only",
+                      "disabled": true
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "created_at",
+                      "description": "Sort by field"
+                    },
+                    {
+                      "key": "sort_direction",
+                      "value": "desc",
+                      "description": "Sort direction (asc, desc)"
+                    }
+                  ]
+                },
+                "description": "Retrieve paginated list of currencies with filtering options",
+                "name": "List Currencies",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "url": "{{base_url}}/currencies"
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Currencies retrieved successfully\",\n    \"data\": [\n        {\n            \"uuid\": \"0198d5bf-g001-72d1-8c56-b4824c7f7690\",\n            \"name\": \"Turkish Lira\",\n            \"code\": \"TRY\",\n            \"symbol\": \"₺\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        },\n        {\n            \"uuid\": \"0198d5bf-g002-72d1-8c56-b4824c7f7691\",\n            \"name\": \"US Dollar\",\n            \"code\": \"USD\",\n            \"symbol\": \"$\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        }\n    ],\n    \"errors\": []\n}"
+                }
+              ]
+            },
+            {
+              "name": "Create Currency",
+              "request": {
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"TRY\",\n  \"name\": \"Turkish Lira\",\n  \"symbol\": \"₺\",\n  \"decimals\": 2,\n  \"is_active\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/currencies",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "currencies"
+                  ]
+                },
+                "description": "Create a new currency",
+                "name": "Create Currency",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "url": "{{base_url}}/currencies"
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Currencies retrieved successfully\",\n    \"data\": [\n        {\n            \"uuid\": \"0198d5bf-g001-72d1-8c56-b4824c7f7690\",\n            \"name\": \"Turkish Lira\",\n            \"code\": \"TRY\",\n            \"symbol\": \"₺\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        },\n        {\n            \"uuid\": \"0198d5bf-g002-72d1-8c56-b4824c7f7691\",\n            \"name\": \"US Dollar\",\n            \"code\": \"USD\",\n            \"symbol\": \"$\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        }\n    ],\n    \"errors\": []\n}"
+                }
+              ]
+            },
+            {
+              "name": "Get Currency",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{base_url}}/currencies/{{currency_uuid}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "currencies",
+                    "{{currency_uuid}}"
+                  ]
+                },
+                "description": "Get a specific currency by ID",
+                "name": "Get Currency",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "url": "{{base_url}}/currencies"
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Currencies retrieved successfully\",\n    \"data\": [\n        {\n            \"uuid\": \"0198d5bf-g001-72d1-8c56-b4824c7f7690\",\n            \"name\": \"Turkish Lira\",\n            \"code\": \"TRY\",\n            \"symbol\": \"₺\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        },\n        {\n            \"uuid\": \"0198d5bf-g002-72d1-8c56-b4824c7f7691\",\n            \"name\": \"US Dollar\",\n            \"code\": \"USD\",\n            \"symbol\": \"$\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        }\n    ],\n    \"errors\": []\n}"
+                }
+              ]
+            },
+            {
+              "name": "Update Currency",
+              "request": {
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"TRY\",\n  \"name\": \"New Turkish Lira\",\n  \"symbol\": \"₺\",\n  \"decimals\": 2,\n  \"is_active\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/currencies/{{currency_uuid}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "currencies",
+                    "{{currency_uuid}}"
+                  ]
+                },
+                "description": "Update a specific currency",
+                "name": "Update Currency",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "url": "{{base_url}}/currencies"
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Currencies retrieved successfully\",\n    \"data\": [\n        {\n            \"uuid\": \"0198d5bf-g001-72d1-8c56-b4824c7f7690\",\n            \"name\": \"Turkish Lira\",\n            \"code\": \"TRY\",\n            \"symbol\": \"₺\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        },\n        {\n            \"uuid\": \"0198d5bf-g002-72d1-8c56-b4824c7f7691\",\n            \"name\": \"US Dollar\",\n            \"code\": \"USD\",\n            \"symbol\": \"$\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        }\n    ],\n    \"errors\": []\n}"
+                }
+              ]
+            },
+            {
+              "name": "Delete Currency (Soft Delete)",
+              "request": {
+                "method": "DELETE",
+                "url": {
+                  "raw": "{{base_url}}/currencies/{{currency_uuid}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "currencies",
+                    "{{currency_uuid}}"
+                  ]
+                },
+                "description": "Soft delete a specific currency",
+                "name": "Delete Currency (Soft Delete)",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "url": "{{base_url}}/currencies"
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Currencies retrieved successfully\",\n    \"data\": [\n        {\n            \"uuid\": \"0198d5bf-g001-72d1-8c56-b4824c7f7690\",\n            \"name\": \"Turkish Lira\",\n            \"code\": \"TRY\",\n            \"symbol\": \"₺\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        },\n        {\n            \"uuid\": \"0198d5bf-g002-72d1-8c56-b4824c7f7691\",\n            \"name\": \"US Dollar\",\n            \"code\": \"USD\",\n            \"symbol\": \"$\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        }\n    ],\n    \"errors\": []\n}"
+                }
+              ]
+            },
+            {
+              "name": "Restore Currency",
+              "request": {
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/currencies/{{currency_uuid}}/restore",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "currencies",
+                    "{{currency_uuid}}",
+                    "restore"
+                  ]
+                },
+                "description": "Restore a soft deleted currency",
+                "name": "Restore Currency",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "url": "{{base_url}}/currencies"
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Currencies retrieved successfully\",\n    \"data\": [\n        {\n            \"uuid\": \"0198d5bf-g001-72d1-8c56-b4824c7f7690\",\n            \"name\": \"Turkish Lira\",\n            \"code\": \"TRY\",\n            \"symbol\": \"₺\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        },\n        {\n            \"uuid\": \"0198d5bf-g002-72d1-8c56-b4824c7f7691\",\n            \"name\": \"US Dollar\",\n            \"code\": \"USD\",\n            \"symbol\": \"$\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        }\n    ],\n    \"errors\": []\n}"
+                }
+              ]
+            },
+            {
+              "name": "Force Delete Currency",
+              "request": {
+                "method": "DELETE",
+                "url": {
+                  "raw": "{{base_url}}/currencies/{{currency_uuid}}/force-delete",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "currencies",
+                    "{{currency_uuid}}",
+                    "force-delete"
+                  ]
+                },
+                "description": "Permanently delete a currency",
+                "name": "Force Delete Currency",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "url": "{{base_url}}/currencies"
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Currencies retrieved successfully\",\n    \"data\": [\n        {\n            \"uuid\": \"0198d5bf-g001-72d1-8c56-b4824c7f7690\",\n            \"name\": \"Turkish Lira\",\n            \"code\": \"TRY\",\n            \"symbol\": \"₺\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        },\n        {\n            \"uuid\": \"0198d5bf-g002-72d1-8c56-b4824c7f7691\",\n            \"name\": \"US Dollar\",\n            \"code\": \"USD\",\n            \"symbol\": \"$\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        }\n    ],\n    \"errors\": []\n}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Languages",
+          "description": "Language management with full CRUD operations",
+          "item": [
+            {
+              "name": "List Languages",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{base_url}}/languages?per_page={{page}}{{per_page}}&page={{page}}&sort_by=created_at&sort_direction=desc",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "languages"
+                  ],
+                  "query": [
+                    {
+                      "key": "per_page",
+                      "value": "25",
+                      "description": "Number of items per page"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1",
+                      "description": "Page number"
+                    },
+                    {
+                      "key": "search",
+                      "value": "",
+                      "description": "Search in name, native_name and code",
+                      "disabled": true
+                    },
+                    {
+                      "key": "active_only",
+                      "value": "true",
+                      "description": "Filter active languages only",
+                      "disabled": true
+                    },
+                    {
+                      "key": "direction",
+                      "value": "ltr",
+                      "description": "Filter by text direction (ltr, rtl)",
+                      "disabled": true
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "created_at",
+                      "description": "Sort by field"
+                    },
+                    {
+                      "key": "sort_direction",
+                      "value": "desc",
+                      "description": "Sort direction (asc, desc)"
+                    }
+                  ]
+                },
+                "description": "Retrieve paginated list of languages with filtering options",
+                "name": "List Languages",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "url": "{{base_url}}/languages"
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Languages retrieved successfully\",\n    \"data\": [\n        {\n            \"uuid\": \"0198d5bf-h001-72d1-8c56-b4824c7f7700\",\n            \"name\": \"Turkish\",\n            \"code\": \"tr\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        },\n        {\n            \"uuid\": \"0198d5bf-h002-72d1-8c56-b4824c7f7701\",\n            \"name\": \"English\",\n            \"code\": \"en\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        }\n    ],\n    \"errors\": []\n}"
+                }
+              ]
+            },
+            {
+              "name": "Create Language",
+              "request": {
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"tr\",\n  \"name\": \"Turkish\",\n  \"native_name\": \"Türkçe\",\n  \"locale\": \"tr_TR\",\n  \"direction\": \"ltr\",\n  \"is_active\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/languages",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "languages"
+                  ]
+                },
+                "description": "Create a new language",
+                "name": "Create Language",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "url": "{{base_url}}/languages"
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Languages retrieved successfully\",\n    \"data\": [\n        {\n            \"uuid\": \"0198d5bf-h001-72d1-8c56-b4824c7f7700\",\n            \"name\": \"Turkish\",\n            \"code\": \"tr\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        },\n        {\n            \"uuid\": \"0198d5bf-h002-72d1-8c56-b4824c7f7701\",\n            \"name\": \"English\",\n            \"code\": \"en\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        }\n    ],\n    \"errors\": []\n}"
+                }
+              ]
+            },
+            {
+              "name": "Get Language",
+              "request": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{base_url}}/languages/{{language_uuid}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "languages",
+                    "{{language_uuid}}"
+                  ]
+                },
+                "description": "Get a specific language by ID",
+                "name": "Get Language",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "url": "{{base_url}}/languages"
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Languages retrieved successfully\",\n    \"data\": [\n        {\n            \"uuid\": \"0198d5bf-h001-72d1-8c56-b4824c7f7700\",\n            \"name\": \"Turkish\",\n            \"code\": \"tr\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        },\n        {\n            \"uuid\": \"0198d5bf-h002-72d1-8c56-b4824c7f7701\",\n            \"name\": \"English\",\n            \"code\": \"en\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        }\n    ],\n    \"errors\": []\n}"
+                }
+              ]
+            },
+            {
+              "name": "Update Language",
+              "request": {
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"tr\",\n  \"name\": \"Turkish\",\n  \"native_name\": \"Türkçe\",\n  \"locale\": \"tr_TR\",\n  \"direction\": \"ltr\",\n  \"is_active\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/languages/{{language_uuid}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "languages",
+                    "{{language_uuid}}"
+                  ]
+                },
+                "description": "Update a specific language",
+                "name": "Update Language",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "url": "{{base_url}}/languages"
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Languages retrieved successfully\",\n    \"data\": [\n        {\n            \"uuid\": \"0198d5bf-h001-72d1-8c56-b4824c7f7700\",\n            \"name\": \"Turkish\",\n            \"code\": \"tr\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        },\n        {\n            \"uuid\": \"0198d5bf-h002-72d1-8c56-b4824c7f7701\",\n            \"name\": \"English\",\n            \"code\": \"en\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        }\n    ],\n    \"errors\": []\n}"
+                }
+              ]
+            },
+            {
+              "name": "Delete Language (Soft Delete)",
+              "request": {
+                "method": "DELETE",
+                "url": {
+                  "raw": "{{base_url}}/languages/{{language_uuid}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "languages",
+                    "{{language_uuid}}"
+                  ]
+                },
+                "description": "Soft delete a specific language",
+                "name": "Delete Language (Soft Delete)",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "url": "{{base_url}}/languages"
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Languages retrieved successfully\",\n    \"data\": [\n        {\n            \"uuid\": \"0198d5bf-h001-72d1-8c56-b4824c7f7700\",\n            \"name\": \"Turkish\",\n            \"code\": \"tr\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        },\n        {\n            \"uuid\": \"0198d5bf-h002-72d1-8c56-b4824c7f7701\",\n            \"name\": \"English\",\n            \"code\": \"en\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        }\n    ],\n    \"errors\": []\n}"
+                }
+              ]
+            },
+            {
+              "name": "Restore Language",
+              "request": {
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/languages/{{language_uuid}}/restore",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "languages",
+                    "{{language_uuid}}",
+                    "restore"
+                  ]
+                },
+                "description": "Restore a soft deleted language",
+                "name": "Restore Language",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "url": "{{base_url}}/languages"
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Languages retrieved successfully\",\n    \"data\": [\n        {\n            \"uuid\": \"0198d5bf-h001-72d1-8c56-b4824c7f7700\",\n            \"name\": \"Turkish\",\n            \"code\": \"tr\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        },\n        {\n            \"uuid\": \"0198d5bf-h002-72d1-8c56-b4824c7f7701\",\n            \"name\": \"English\",\n            \"code\": \"en\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        }\n    ],\n    \"errors\": []\n}"
+                }
+              ]
+            },
+            {
+              "name": "Force Delete Language",
+              "request": {
+                "method": "DELETE",
+                "url": {
+                  "raw": "{{base_url}}/languages/{{language_uuid}}/force-delete",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "languages",
+                    "{{language_uuid}}",
+                    "force-delete"
+                  ]
+                },
+                "description": "Permanently delete a language",
+                "name": "Force Delete Language",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ]
+              },
+              "response": [
+                {
+                  "name": "Success Response",
+                  "originalRequest": {
+                    "method": "GET",
+                    "url": "{{base_url}}/languages"
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "body": "{\n    \"success\": true,\n    \"message\": \"Languages retrieved successfully\",\n    \"data\": [\n        {\n            \"uuid\": \"0198d5bf-h001-72d1-8c56-b4824c7f7700\",\n            \"name\": \"Turkish\",\n            \"code\": \"tr\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        },\n        {\n            \"uuid\": \"0198d5bf-h002-72d1-8c56-b4824c7f7701\",\n            \"name\": \"English\",\n            \"code\": \"en\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        }\n    ],\n    \"errors\": []\n}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "category_uuid",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "per_page",
+      "value": "25",
+      "type": "string"
+    },
+    {
+      "key": "page",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "search",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "country_uuid",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "currency_uuid",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "language_uuid",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "user_uuid",
+      "value": "00000000-0000-0000-0000-000000000001",
+      "type": "string",
+      "description": "UUID for a User entity"
+    },
+    {
+      "key": "listing_uuid",
+      "value": "00000000-0000-0000-0000-000000000005",
+      "type": "string",
+      "description": "UUID of a listing for testing"
+    },
+    {
+      "key": "city_uuid",
+      "value": "00000000-0000-0000-0000-000000000006",
+      "type": "string",
+      "description": "UUID of a city for testing (Istanbul)"
+    },
+    {
+      "key": "district_uuid",
+      "value": "00000000-0000-0000-0000-000000000007",
+      "type": "string",
+      "description": "UUID of a district for testing (Kadikoy)"
+    },
+    {
+      "key": "address_uuid",
+      "value": "00000000-0000-0000-0000-000000000002",
+      "type": "string",
+      "description": "UUID of a user address for testing"
+    },
+    {
+      "key": "admin_uuid",
+      "value": "00000000-0000-0000-0000-000000000008",
+      "type": "string",
+      "description": "UUID of an admin user for testing approval workflows"
+    },
+    {
+      "key": "orderBy",
+      "value": "created_at",
+      "type": "string"
+    },
+    {
+      "key": "order",
+      "value": "desc",
+      "type": "string"
+    },
+    {
+      "key": "searchBy",
+      "value": "name",
+      "type": "string"
+    },
+    {
+      "key": "start_date",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "end_date",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "info": {
+    "name": "Districts",
+    "description": "District read-only endpoints for location services. Districts are managed via database seeders.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "List City Districts",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/cities/{{city_uuid}}/districts",
+          "host": ["{{base_url}}"],
+          "path": ["cities", "{{city_uuid}}", "districts"]
+        },
+        "description": "Get all districts for a specific city"
+      },
+      "response": [
+        {
+          "name": "Success Response",
+          "originalRequest": {
+            "method": "GET",
+            "url": "{{base_url}}/cities/{{city_uuid}}/districts"
+          },
+          "status": "OK",
+          "code": 200,
+          "body": "{\n    \"success\": true,\n    \"message\": \"Districts retrieved successfully\",\n    \"data\": [\n        {\n            \"uuid\": \"district-uuid-1\",\n            \"name\": \"Kadikoy\",\n            \"city_uuid\": \"{{city_uuid}}\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        },\n        {\n            \"uuid\": \"district-uuid-2\",\n            \"name\": \"Besiktas\",\n            \"city_uuid\": \"{{city_uuid}}\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        }\n    ],\n    \"errors\": []\n}"
+        }
+      ]
+    },
+    {
+      "name": "Get District",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/districts/{{district_uuid}}",
+          "host": ["{{base_url}}"],
+          "path": ["districts", "{{district_uuid}}"]
+        },
+        "description": "Get a specific district by ID"
+      },
+      "response": [
+        {
+          "name": "Success Response",
+          "originalRequest": {
+            "method": "GET",
+            "url": "{{base_url}}/districts/{{district_uuid}}"
+          },
+          "status": "OK",
+          "code": 200,
+          "body": "{\n    \"success\": true,\n    \"message\": \"District retrieved successfully\",\n    \"data\": {\n        \"uuid\": \"{{district_uuid}}\",\n        \"name\": \"Kadikoy\",\n        \"city_uuid\": \"city-uuid-1\",\n        \"is_active\": true,\n        \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n        \"updated_at\": \"2025-08-23T20:00:00.000000Z\",\n        \"city\": {\n            \"uuid\": \"city-uuid-1\",\n            \"name\": \"Istanbul\",\n            \"country_uuid\": \"country-uuid-1\"\n        }\n    },\n    \"errors\": []\n}"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "city_uuid",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "district_uuid", 
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "info": {
+    "name": "Countries",
+    "description": "Country read-only endpoints for location services. Countries are managed via database seeders.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "List Countries",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/countries?per_page={{page}}{{per_page}}&page={{page}}&sort_by=created_at&sort_direction=desc",
+          "host": ["{{base_url}}"],
+          "path": ["countries"],
+          "query": [
+            {"key": "per_page", "value": "25", "description": "Number of items per page"},
+            {"key": "page", "value": "1", "description": "Page number"},
+            {"key": "search", "value": "", "description": "Search in name and code", "disabled": true},
+            {"key": "active_only", "value": "true", "description": "Filter active countries only", "disabled": true},
+            {"key": "sort_by", "value": "created_at", "description": "Sort by field"},
+            {"key": "sort_direction", "value": "desc", "description": "Sort direction (asc, desc)"}
+          ]
+        },
+        "description": "Retrieve paginated list of countries with filtering options"
+      },
+      "response": [
+        {
+          "name": "Success Response",
+          "originalRequest": {
+            "method": "GET",
+            "url": "{{base_url}}/countries"
+          },
+          "status": "OK",
+          "code": 200,
+          "body": "{\n    \"success\": true,\n    \"message\": \"Countries retrieved successfully\",\n    \"data\": [\n        {\n            \"uuid\": \"0198d5bf-f001-72d1-8c56-b4824c7f7680\",\n            \"name\": \"Turkey\",\n            \"code\": \"TR\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        },\n        {\n            \"uuid\": \"0198d5bf-f002-72d1-8c56-b4824c7f7681\",\n            \"name\": \"United States\",\n            \"code\": \"US\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        }\n    ],\n    \"errors\": []\n}"
+        }
+      ]
+    },
+    {
+      "name": "Get Country",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/countries/{{country_uuid}}",
+          "host": ["{{base_url}}"],
+          "path": ["countries", "{{country_uuid}}"]
+        },
+        "description": "Get a specific country by ID"
+      },
+      "response": [
+        {
+          "name": "Success Response",
+          "originalRequest": {
+            "method": "GET",
+            "url": "{{base_url}}/countries"
+          },
+          "status": "OK",
+          "code": 200,
+          "body": "{\n    \"success\": true,\n    \"message\": \"Countries retrieved successfully\",\n    \"data\": [\n        {\n            \"uuid\": \"0198d5bf-f001-72d1-8c56-b4824c7f7680\",\n            \"name\": \"Turkey\",\n            \"code\": \"TR\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        },\n        {\n            \"uuid\": \"0198d5bf-f002-72d1-8c56-b4824c7f7681\",\n            \"name\": \"United States\",\n            \"code\": \"US\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        }\n    ],\n    \"errors\": []\n}"
+        }
+      ]
+    },
+    {
+      "name": "Get Country Cities",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/countries/{{country_uuid}}/cities",
+          "host": ["{{base_url}}"],
+          "path": ["countries", "{{country_uuid}}", "cities"]
+        },
+        "description": "Get all cities for a specific country"
+      },
+      "response": [
+        {
+          "name": "Success Response",
+          "originalRequest": {
+            "method": "GET",
+            "url": "{{base_url}}/countries/{{country_uuid}}/cities"
+          },
+          "status": "OK",
+          "code": 200,
+          "body": "{\n    \"success\": true,\n    \"message\": \"Cities retrieved successfully\",\n    \"data\": [\n        {\n            \"uuid\": \"city-uuid-1\",\n            \"name\": \"Istanbul\",\n            \"country_uuid\": \"{{country_uuid}}\",\n            \"is_active\": true,\n            \"created_at\": \"2025-08-23T20:00:00.000000Z\",\n            \"updated_at\": \"2025-08-23T20:00:00.000000Z\"\n        }\n    ],\n    \"errors\": []\n}"
+        }
+      ]
+    }
+  ]
+}

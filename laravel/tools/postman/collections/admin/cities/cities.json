@@ -1,0 +1,63 @@
+{
+  "info": {
+    "name": "Cities",
+    "description": "City and district endpoints for location selection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "List All Cities",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/cities",
+          "host": ["{{base_url}}"],
+          "path": ["cities"]
+        },
+        "description": "Get all active cities for location selection"
+      },
+      "response": [
+        {
+          "name": "Success Response - Cities List",
+          "originalRequest": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/cities",
+              "host": ["{{base_url}}"],
+              "path": ["cities"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "body": "{\n    \"success\": true,\n    \"message\": \"Cities retrieved successfully\",\n    \"data\": [\n        {\n            \"uuid\": \"0198d5bf-c003-72d1-8c56-b4824c7f7652\",\n            \"name\": \"Istanbul\",\n            \"plate_code\": \"34\",\n            \"is_active\": true,\n            \"listings_count\": 125,\n            \"created_at\": \"2025-09-05T10:00:00+00:00\",\n            \"updated_at\": \"2025-09-05T10:00:00+00:00\"\n        },\n        {\n            \"uuid\": \"0198d5bf-c009-72d1-8c56-b4824c7f7659\",\n            \"name\": \"Ankara\",\n            \"plate_code\": \"06\",\n            \"is_active\": true,\n            \"listings_count\": 89,\n            \"created_at\": \"2025-09-05T10:00:00+00:00\",\n            \"updated_at\": \"2025-09-05T10:00:00+00:00\"\n        },\n        {\n            \"uuid\": \"0198d5bf-c010-72d1-8c56-b4824c7f7660\",\n            \"name\": \"Izmir\",\n            \"plate_code\": \"35\",\n            \"is_active\": true,\n            \"listings_count\": 67,\n            \"created_at\": \"2025-09-05T10:00:00+00:00\",\n            \"updated_at\": \"2025-09-05T10:00:00+00:00\"\n        }\n    ],\n    \"errors\": []\n}"
+        }
+      ]
+    },
+    {
+      "name": "Get City with Districts",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/cities/{{city_uuid}}",
+          "host": ["{{base_url}}"],
+          "path": ["cities", "{{city_uuid}}"]
+        },
+        "description": "Get city details with its districts"
+      },
+      "response": [
+        {
+          "name": "Success Response - City with Districts",
+          "originalRequest": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/cities/{{city_uuid}}",
+              "host": ["{{base_url}}"],
+              "path": ["cities", "{{city_uuid}}"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "body": "{\n    \"success\": true,\n    \"message\": \"City retrieved successfully\",\n    \"data\": {\n        \"uuid\": \"0198d5bf-c003-72d1-8c56-b4824c7f7652\",\n        \"name\": \"Istanbul\",\n        \"plate_code\": \"34\",\n        \"is_active\": true,\n        \"districts\": [\n            {\n                \"uuid\": \"0198d5bf-c004-72d1-8c56-b4824c7f7653\",\n                \"name\": \"Kadikoy\",\n                \"is_active\": true\n            },\n            {\n                \"uuid\": \"0198d5bf-c011-72d1-8c56-b4824c7f7661\",\n                \"name\": \"Besiktas\",\n                \"is_active\": true\n            },\n            {\n                \"uuid\": \"0198d5bf-c012-72d1-8c56-b4824c7f7662\",\n                \"name\": \"Sisli\",\n                \"is_active\": true\n            },\n            {\n                \"uuid\": \"0198d5bf-c013-72d1-8c56-b4824c7f7663\",\n                \"name\": \"Uskudar\",\n                \"is_active\": true\n            },\n            {\n                \"uuid\": \"0198d5bf-c014-72d1-8c56-b4824c7f7664\",\n                \"name\": \"Fatih\",\n                \"is_active\": true\n            }\n        ],\n        \"listings_count\": 125,\n        \"created_at\": \"2025-09-05T10:00:00+00:00\",\n        \"updated_at\": \"2025-09-05T10:00:00+00:00\"\n    },\n    \"errors\": []\n}"
+        }
+      ]
+    }\n  ]\n}

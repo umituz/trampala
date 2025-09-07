@@ -3,7 +3,7 @@
 
 set -e
 
-PROJECT_DIR="/var/www/html/${PROJECT_NAME}-api"
+PROJECT_DIR="/var/www/html/api"
 
 # Create necessary directories only if they don't exist
 for dir in "${PROJECT_DIR}/storage/framework/sessions" \
@@ -32,36 +32,23 @@ git config --global --add safe.directory '*'
 git config --global core.fileMode false
 git config --global core.longpaths true
 
+# Fix composer pubkeys issue
+echo "Updating composer keys..."
+composer self-update --update-keys --quiet 2>/dev/null || true
+
+# Change to the correct working directory 
+cd "${PROJECT_DIR}"
+
 # Install dependencies if needed
-if [ ! -d 'vendor' ] || [ ! -f 'vendor/autoload.php' ]; then
+if [ ! -f 'vendor/autoload.php' ]; then
     echo 'Installing Composer dependencies...'
-    COMPOSER_MEMORY_LIMIT=-1 composer install --no-scripts
+    composer clear-cache
+    COMPOSER_MEMORY_LIMIT=-1 composer install --no-cache --prefer-dist --no-scripts
 else
     echo 'Composer dependencies already installed.'
 fi
 
-# Laravel optimizations only if needed
-if [ -f 'artisan' ]; then
-    echo 'Optimizing Laravel...'
-    composer dump-autoload -o
-    
-    # Create necessary directories if they don't exist
-    mkdir -p resources/views
-    mkdir -p public
-    mkdir -p storage/app/public
-    
-    # Clear caches first
-    php artisan config:clear || true
-    php artisan cache:clear || true
-    php artisan route:clear || true
-    
-    # Now optimize (skip view caching if it fails)
-    php artisan config:cache || true
-    php artisan route:cache || true
-    php artisan event:cache || true
-fi
-
-# Start server - Her zaman Docker konteyneri içinde 80 portunda çalıştır
+# Start server
 echo "Starting server on port 80..."
 if command -v php-fpm &> /dev/null; then
     echo "Starting with PHP-FPM..."

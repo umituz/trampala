@@ -171,16 +171,13 @@ if docker ps | grep -q trampala_postgres; then
     
     # Only run Laravel setup if container is running
     if docker ps | grep -q trampala_laravel; then
-        # Clear composer cache first
-        print_status "Clearing Composer cache..."
-        docker exec trampala_laravel composer clear-cache 2>/dev/null || true
-        
-        # Install composer dependencies first
+        # Install composer dependencies first (flalingo-case approach)
         print_status "Installing Composer dependencies..."
-        if docker exec trampala_laravel composer install 2>/dev/null; then
+        if docker exec trampala_laravel composer install; then
             print_success "Composer dependencies installed successfully!"
         else
-            print_warning "Composer dependencies may already be installed"
+            print_error "Failed to install composer dependencies"
+            exit 1
         fi
         
         # Clear Laravel caches
@@ -193,9 +190,10 @@ if docker ps | grep -q trampala_postgres; then
         if docker exec trampala_laravel php artisan tinker --execute="DB::connection()->getPdo(); echo 'Database connected successfully!';" >/dev/null 2>&1; then
             print_success "Database connection test passed!"
         else
-            print_warning "Database connection test failed, will retry after fixing configuration"
+            print_error "Database connection test failed!"
             print_status "Checking network connectivity..."
-            docker exec trampala_laravel ping -c 2 trampala_postgres 2>/dev/null || true
+            docker exec trampala_laravel ping -c 2 trampala_postgres
+            exit 1
         fi
         
         # Create storage link for file access
@@ -205,10 +203,11 @@ if docker ps | grep -q trampala_postgres; then
         
         # Run migrations and seeders
         print_status "Running Laravel migrations and seeders..."
-        if docker exec trampala_laravel php artisan migrate:fresh --seed 2>/dev/null; then
+        if docker exec trampala_laravel php artisan migrate:fresh --seed; then
             print_success "Database migrations and seeders completed successfully!"
         else
-            print_warning "Migrations may have failed or database not ready yet"
+            print_error "Failed to run migrations and seeders"
+            exit 1
         fi
     else
         print_warning "Laravel container not running, skipping Laravel setup"
